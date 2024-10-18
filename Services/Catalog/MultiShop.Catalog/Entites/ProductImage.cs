@@ -2,7 +2,7 @@
 
 namespace MultiShop.Catalog.Entites
 {
-    public class ProductImages : BaseEntity
+    public class ProductImage : BaseEntity
     {
         public string Image1 { get; set; }
         public string Image2 { get; set; }
