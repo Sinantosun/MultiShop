@@ -14,7 +14,7 @@ namespace MultiShop.Catalog.Services.ProductServices
 
         public ProductService(IMapper mapper, IDatabaseSettings databaseSettings)
         {
-            var client = new MongoClient(databaseSettings.DatabaseName);
+            var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
             _productCollection = database.GetCollection<Product>(databaseSettings.ProductCollectionName);
             _mapper = mapper;
