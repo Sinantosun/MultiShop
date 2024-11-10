@@ -12,7 +12,7 @@ using MultiShop.Order.Persistence.Context;
 namespace MultiShop.Order.Persistence.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20241027115155_inital")]
+    [Migration("20241110081006_inital")]
     partial class inital
     {
         /// <inheritdoc />
