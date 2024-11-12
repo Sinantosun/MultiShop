@@ -1,23 +1,20 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using MultiShop.Order.Application.Interfaces;
-using MultiShop.Order.Persistence.Container;
-using MultiShop.Order.Persistence.Context;
-using MultiShop.Order.Persistence.Repositories;
-
+using MultiShop.Cargo.BussinesLayer.Container;
+using MultiShop.Cargo.BussinesLayer.Mapping;
+using MultiShop.Cargo.DataAccsessLayer.Concrete;
+using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<OrderContext>();
-builder.Services.ProjectDependencies();
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig).Assembly);
 
+builder.Services.AddDbContext<CargoContext>();
+builder.Services.AddProjectDepenencies();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
 {
-    opts.Authority = builder.Configuration["IdentityServerUrl"];
+    opts.Audience = "Resource_Cargo";
     opts.RequireHttpsMetadata = false;
-    opts.Audience = "Resource_Order";
+    opts.Authority = builder.Configuration["IdentityServerUrl"];
 });
-
-
 builder.Services.AddControllers(opts =>
 {
     opts.Filters.Add(new AuthorizeFilter());
@@ -25,10 +22,6 @@ builder.Services.AddControllers(opts =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
-
-
 
 var app = builder.Build();
 
@@ -40,7 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

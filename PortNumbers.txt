@@ -1,0 +1,6 @@
+IdentityServer => https://localhost:5001
+Catalog => https://localhost:7070
+Discount => https://localhost:7071
+Order => https://localhost:7072
+Cargo => https://localhost:7073
+Basket => https://localhost:7074
