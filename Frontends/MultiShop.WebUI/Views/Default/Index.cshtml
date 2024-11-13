@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+@await Component.InvokeAsync("CatalogCarouselComponentPartial")
+
+@await Component.InvokeAsync("CatalogFeatureComponentPartial")
+
+@await Component.InvokeAsync("CatalogCatagoriesComponentPartial")
+
+@await Component.InvokeAsync("CatalogFeatureProductComponentPartial")
+
+@await Component.InvokeAsync("CatalogOfferComponentPartial")
+
+
+@await Component.InvokeAsync("CatalogProductComponentPartial")
+@await Component.InvokeAsync("CatalogVendorComponentPartial")
