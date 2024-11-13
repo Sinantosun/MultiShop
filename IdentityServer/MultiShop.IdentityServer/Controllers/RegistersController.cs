@@ -9,7 +9,7 @@ using static IdentityServer4.IdentityServerConstants;
 
 namespace MultiShop.IdentityServer.Controllers
 {
-    [Authorize(LocalApi.PolicyName)]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class RegistersController : ControllerBase
