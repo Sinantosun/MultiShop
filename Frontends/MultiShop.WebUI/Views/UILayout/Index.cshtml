@@ -10,6 +10,17 @@
 
 <body>
     @await Component.InvokeAsync("UILayoutNavbarComponentPartial")
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <span class="breadcrumb-item text-dark" >@ViewBag.v1</span>
+                    <span class="breadcrumb-item text-dark" >@ViewBag.v2</span>
+                    <span class="breadcrumb-item active">@ViewBag.v3</span>
+                </nav>
+            </div>
+        </div>
+    </div>
     @RenderBody()
     @await Component.InvokeAsync("UILayoutFooterComponentPartial")
     @await Component.InvokeAsync("UILayoutScriptsComponentPartial")
