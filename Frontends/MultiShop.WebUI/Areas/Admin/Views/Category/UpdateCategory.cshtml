@@ -1,0 +1,23 @@
+﻿@model ResultCategoryByIdDto
+@{
+    ViewData["Title"] = "UpdateCategory";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Kategori Ekleme Sayfası </h4>
+                <form method="post">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="Id">
+                        <label for="exampleInputForCategoryName">Kategori Adı</label>
+                        <input type="text" asp-for="CategoryName" class="form-control" id="exampleInputForCategoryName" placeholder="Lütfen kategori adını yazınız">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
