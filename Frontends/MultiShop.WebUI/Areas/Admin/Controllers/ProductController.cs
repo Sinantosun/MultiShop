@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MultiShop.DtoLayer.Dtos.CategoryDtos;
-using MultiShop.WebUI.Areas.Admin.ViewComponents.AdminLayoutViewComponents;
+using MultiShop.DtoLayer.Dtos.ProductDtos;
 using MultiShop.WebUI.Services;
 using Newtonsoft.Json;
 using System.Text;
@@ -9,11 +8,11 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[area]/[controller]/[action]/{id?}")]
-    public class CategoryController : Controller
+    public class ProductController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly NotificationService _notificationService;
-        public CategoryController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
+        public ProductController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
         {
             _httpClientFactory = httpClientFactory;
             _notificationService = notificationService;
@@ -22,12 +21,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
 
-
-
-            ViewBag.PageTitle = "Kategori İşlemleri";
+            ViewBag.PageTitle = "Ürün İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
-            ViewBag.v5 = "Kategoriler";
-            ViewBag.v6 = "Kategori Listesi";
+            ViewBag.v5 = "Ürünler";
+            ViewBag.v6 = "Ürün Listesi";
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
@@ -35,23 +32,23 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
 
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
+            var responseMessage = await client.GetAsync("https://localhost:7070/api/Products");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
+                var result = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsonData);
                 return View(result);
             }
-            return View(new List<ResultCategoryDto>());
+            return View(new List<ResultProductDto>());
         }
 
         [HttpGet]
-        public IActionResult CreateCategory()
+        public IActionResult CreateProduct()
         {
-            ViewBag.PageTitle = "Kategori İşlemleri";
+            ViewBag.PageTitle = "Ürün İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
-            ViewBag.v5 = "Kategoriler";
-            ViewBag.v6 = "Kategori Ekle";
+            ViewBag.v5 = "Ürünler";
+            ViewBag.v6 = "Ürün Ekle";
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
@@ -59,12 +56,12 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CreateCategoryDto createCategoryDto)
+        public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
         {
             var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(createCategoryDto);
+            var data = JsonConvert.SerializeObject(createProductDto);
             StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7070/api/Categories", str);
+            var responseMessage = await client.PostAsync("https://localhost:7070/api/Products", str);
             if (responseMessage.IsSuccessStatusCode)
             {
                 _notificationService.Success("Yeni kayıt eklendi.");
@@ -73,40 +70,40 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             {
                 _notificationService.Error("Kayıt ekleme sırasında bir hata oluştu.");
             }
-            return RedirectToAction("CreateCategory");
+            return RedirectToAction("CreateProduct");
 
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> UpdateCategory(string id)
+        public async Task<IActionResult> UpdateProduct(string id)
         {
-            ViewBag.PageTitle = "Kategori İşlemleri";
+            ViewBag.PageTitle = "Ürün İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
-            ViewBag.v5 = "Kategoriler";
-            ViewBag.v6 = "Kategori Güncelle";
+            ViewBag.v5 = "Ürünler";
+            ViewBag.v6 = "Ürün Güncelle";
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i2 = "fa-bars";
 
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7070/api/Categories/{id}");
+            var responseMessage = await client.GetAsync($"https://localhost:7070/api/Products/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ResultCategoryByIdDto>(jsonData);
+                var result = JsonConvert.DeserializeObject<ResultProductByIdDto>(jsonData);
                 return View(result);
             }
-            return View(new ResultCategoryByIdDto());
+            return View(new ResultProductByIdDto());
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateCategory(UpdateCategoryDto updateCategoryDto)
+        public async Task<IActionResult> UpdateProduct(UpdateProductDto updateProductDto)
         {
             var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(updateCategoryDto);
+            var data = JsonConvert.SerializeObject(updateProductDto);
             StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7070/api/Categories", str);
+            var responseMessage = await client.PutAsync("https://localhost:7070/api/Products", str);
             if (responseMessage.IsSuccessStatusCode)
             {
                 _notificationService.Success("Kayıt güncellendi.");
@@ -121,10 +118,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> DeleteCategory(string id)
+        public async Task<IActionResult> DeleteProduct(string id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7070/api/Categories/{id}");
+            var responseMessage = await client.DeleteAsync($"https://localhost:7070/api/Products/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 _notificationService.Success("Kayıt silindi.");
@@ -135,6 +132,5 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
-
     }
 }
