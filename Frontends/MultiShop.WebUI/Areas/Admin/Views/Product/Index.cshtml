@@ -1,5 +1,4 @@
-﻿@model List<ResultProductDto>
-
+﻿@model List<ResultProductWithCategoriesDto>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
@@ -13,15 +12,20 @@
             <div class="chart-box">
                 @if (Model.Any() && Model.Count > 0)
                 {
-                    <h4>Kategori Listesi</h4>
-                    <p>Kategoriler ile ilgili ekleme silme güncelleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
+                    <h4>Ürün Listesi</h4>
+                    <p>Ürünler ile ilgili ekleme silme güncelleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
                     <div class="bs-example" data-example-id="bordered-table">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
 
-                                    <th>Kategori Adı</th>
+                                    <th>Görsel</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat</th>
+                                    <th>Açıklama</th>
+                                    <th>Kategori</th>
                                     <th class="text-center" colspan="3">İşlemler</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,13 +33,13 @@
                                 {
 
                                     <tr>
-                                        <td><img src="@item.ProductImageUrl" class="rounded" style="width:100px; height:100px" /></td>
+                                        <td style="width:110px"><img src="@item.ProductImageUrl" class="rounded" style="width:100px; height:100px" /></td>
                                         <td>@item.ProductName</td>
                                         <td>@item.ProductPrice.ToString("C2")</td>
-                                        <td>@item.ProductDescription.Substring(0,item.ProductDescription.Substring(0,30).LastIndexOf(" ")))</td>
-                                        <td>@item.CategoryId</td>
-                                        <td class="text-center" style="width:40px"><button onclick="deleteCategory('@item.Id')" class="btn btn-danger">Sil</button></td>
-                                        <td class="text-center" style="width:40px"><a href="~/Admin/Category/UpdateCategory/@item.Id" class="btn btn-success">Güncelle</a></td>
+                                        <td>@(item.ProductDescription.Length > 500 ? item.ProductDescription.Substring(0, item.ProductDescription.Substring(0, 500).LastIndexOf(" ")) : item.ProductDescription)</td>
+                                        <td>@item.Category.CategoryName</td>
+                                        <td class="text-center" style="width:40px"><button onclick="deleteProduct('@item.Id')" class="btn btn-danger">Sil</button></td>
+                                        <td class="text-center" style="width:40px"><a href="~/Admin/Product/UpdateProduct/@item.Id" class="btn btn-success">Güncelle</a></td>
                                     </tr>
                                 }
                             </tbody>
@@ -54,7 +58,7 @@
 
                 }
                 <br />
-                <a href="~/Admin/Category/CreateCategory" class="btn btn-primary ">Yeni Kategori Girişi</a>
+                <a href="~/Admin/Product/CreateProduct" class="btn btn-primary ">Yeni Ürün Girişi</a>
             </div>
         </div>
 
@@ -67,7 +71,7 @@
 </svg>
 
 <script>
-    function deleteCategory(id) {
+    function deleteProduct(id) {
         Swal.fire({
             title: "Kaydı silmek istediğinizden emin misiniz?",
             text: "bu işlem geri alınamaz.",
@@ -79,7 +83,7 @@
             cancelButtonText: "Vazgeç"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "/Admin/Category/DeleteCategory/" + id;
+                window.location.href = "/Admin/Product/DeleteProduct/" + id;
             }
         });
     }

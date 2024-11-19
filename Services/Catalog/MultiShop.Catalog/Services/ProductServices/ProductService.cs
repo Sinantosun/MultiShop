@@ -14,12 +14,12 @@ namespace MultiShop.Catalog.Services.ProductServices
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMapper _mapper;
 
-        public ProductService(IMapper mapper, IDatabaseSettings databaseSettings, IMongoCollection<Category> categoryCollection)
+        public ProductService(IMapper mapper, IDatabaseSettings databaseSettings)
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
             _productCollection = database.GetCollection<Product>(databaseSettings.ProductCollectionName);
-            _categoryCollection = categoryCollection;
+            _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
             _mapper = mapper;
 
         }
@@ -53,13 +53,13 @@ namespace MultiShop.Catalog.Services.ProductServices
             var ProductValues = await _productCollection.Find(t => true).ToListAsync();
             foreach (var item in ProductValues)
             {
-                var category = _categoryCollection.Find(t => t.Id == item.Id).FirstOrDefault();
+                var category1 = _categoryCollection.Find(t => true).ToList();
+                var category = _categoryCollection.Find(t => t.Id == item.CategoryId).FirstOrDefault();
                 if (category != null)
                 {
                     var mappedValue = _mapper.Map<ResultCategoryDto>(category);
                     result.Add(new ResultProductWithCategoriesDto
                     {
-
                         Id = item.Id,
                         ProductDescription = item.ProductDescription,
                         ProductImageUrl = item.ProductImageUrl,
@@ -71,11 +71,6 @@ namespace MultiShop.Catalog.Services.ProductServices
                 }
             }
             return result;
-
-
-
-
-
 
         }
 

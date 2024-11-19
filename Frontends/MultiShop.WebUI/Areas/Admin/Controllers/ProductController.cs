@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MultiShop.DtoLayer.Dtos.CategoryDtos;
 using MultiShop.DtoLayer.Dtos.ProductDtos;
 using MultiShop.WebUI.Services;
 using Newtonsoft.Json;
@@ -18,6 +20,31 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             _notificationService = notificationService;
         }
 
+
+        async Task<bool> SetCategorySelectoption()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
+
+                List<SelectListItem> values = (from x in result
+                                               select new SelectListItem
+                                               {
+                                                   Text = x.CategoryName,
+                                                   Value = x.Id,
+                                               }).ToList();
+                ViewBag.categoryvalues = values;
+
+
+                return true;
+            }
+            return false;
+        }
+
+
         public async Task<IActionResult> Index()
         {
 
@@ -28,22 +55,22 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
-            ViewBag.i2 = "fa-bars";
+            ViewBag.i3 = "fa-bars";
 
 
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Products");
+            var responseMessage = await client.GetAsync("https://localhost:7070/api/Products/GetListWithCategories");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultProductDto>>(jsonData);
+                var result = JsonConvert.DeserializeObject<List<ResultProductWithCategoriesDto>>(jsonData);
                 return View(result);
             }
-            return View(new List<ResultProductDto>());
+            return View(new List<ResultProductWithCategoriesDto>());
         }
 
         [HttpGet]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
             ViewBag.PageTitle = "Ürün İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
@@ -52,8 +79,16 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
-            ViewBag.i2 = "fa-bars";
-            return View();
+            ViewBag.i3 = "fa-bars";
+
+            bool checkresponse = await SetCategorySelectoption();
+            if (checkresponse)
+            {
+                return View();
+            }
+            _notificationService.Error("Beklenmeyen bir hata meydana geldi.");
+            return RedirectToAction("Index");
+
         }
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductDto createProductDto)
@@ -85,7 +120,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
-            ViewBag.i2 = "fa-bars";
+            ViewBag.i3 = "fa-bars";
 
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync($"https://localhost:7070/api/Products/{id}");
@@ -93,8 +128,13 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<ResultProductByIdDto>(jsonData);
-                return View(result);
+                bool checkresponse = await SetCategorySelectoption();
+                if (checkresponse)
+                {
+                    return View(result);
+                }
             }
+            _notificationService.Error("Beklenmeyen bir hata meydana geldi.");
             return View(new ResultProductByIdDto());
         }
         [HttpPost]
