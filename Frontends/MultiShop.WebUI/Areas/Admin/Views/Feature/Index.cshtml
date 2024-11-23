@@ -1,27 +1,27 @@
-﻿@model List<ResultSpecialOfferDto>
+﻿@model List<ResultFeatueDto>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
 }
 
-<div class="container-fluid">
 
+<div class="container-fluid">
 
     <div class="row">
         <div class="col-md-12">
             <div class="chart-box">
                 @if (Model.Any() && Model.Count > 0)
                 {
-                    <h4>Özel Teklif Listesi</h4>
-                    <p>Özel teklif çıkan alanlar ile ilgili ekleme silme güncelleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
+                    <h4>Öne Çıkan Listesi</h4>
+                    <p>Öne Çıkanlar ile ilgili ekleme silme güncelleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
                     <div class="bs-example" data-example-id="bordered-table">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
 
-                                    <th>Görsel</th>
+                                    <th>İkon</th>
                                     <th>Başlık</th>
-                                    <th>Alt Başlık</th>
+
                                     <th class="text-center" colspan="2">İşlemler</th>
 
                                 </tr>
@@ -31,11 +31,11 @@
                                 {
 
                                     <tr>
-                                        <td ><img src="@item.ImageUrl" class="rounded" style="width:100%; height:200px" /></td>
+                                        <td>@item.Icon</td>
                                         <td>@item.Title</td>
-                                        <td>@item.SubTitle</td>
-                                        <td class="text-center" style="width:40px"><button onclick="deleteSpecialOffer('@item.Id')" class="btn btn-danger">Sil</button></td>
-                                        <td class="text-center" style="width:40px"><a href="~/Admin/SpecialOffer/UpdateSpecialOffer/@item.Id" class="btn btn-success">Güncelle</a></td>
+
+                                        <td class="text-center" style="width:40px"><button onclick="deleteFeature('@item.Id')" class="btn btn-danger">Sil</button></td>
+                                        <td class="text-center" style="width:40px"><a href="~/Admin/Feature/UpdateFeature/@item.Id" class="btn btn-success">Güncelle</a></td>
                                     </tr>
                                 }
                             </tbody>
@@ -54,7 +54,7 @@
 
                 }
                 <br />
-                <a href="~/Admin/SpecialOffer/CreateSpecialOffer" class="btn btn-primary ">Yeni Kayıt Girişi</a>
+                <a href="~/Admin/Feature/CreateFeature" class="btn btn-primary ">Yeni Ürün Girişi</a>
             </div>
         </div>
 
@@ -67,7 +67,7 @@
 </svg>
 
 <script>
-    function deleteSpecialOffer(id) {
+    function deleteFeature(id) {
         Swal.fire({
             title: "Kaydı silmek istediğinizden emin misiniz?",
             text: "bu işlem geri alınamaz.",
@@ -79,7 +79,7 @@
             cancelButtonText: "Vazgeç"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "/Admin/SpecialOffer/DeleteSpecialOffer/" + id;
+                window.location.href = "/Admin/Feature/DeleteFeature/" + id;
             }
         });
     }

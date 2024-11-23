@@ -20,7 +20,6 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             _notificationService = notificationService;
         }
 
-
         async Task<bool> SetCategorySelectoption()
         {
             var client = _httpClientFactory.CreateClient();
