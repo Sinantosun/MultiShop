@@ -4,6 +4,7 @@ using MultiShop.Catalog.Dtos.FeatureSliderDtos;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Dtos.ProductImageDtos;
+using MultiShop.Catalog.Dtos.SpecialOfferDtos;
 using MultiShop.Catalog.Entites;
 
 namespace MultiShop.Catalog.Mapping
@@ -38,6 +39,11 @@ namespace MultiShop.Catalog.Mapping
             CreateMap<FeatureSlider, UpdateFeatureSliderDto>().ReverseMap();
             CreateMap<FeatureSlider, CreateFeatureSliderDto>().ReverseMap();
 
+
+            CreateMap<Specialoffer, ResultSpecialOfferDto>().ReverseMap();
+            CreateMap<Specialoffer, CreateSpecialOfferDto>().ReverseMap();
+            CreateMap<Specialoffer, UpdateSpecialOfferDto>().ReverseMap();
+            CreateMap<Specialoffer, ResultSpecialOfferByIdDto>().ReverseMap();
         }
     }
 }
