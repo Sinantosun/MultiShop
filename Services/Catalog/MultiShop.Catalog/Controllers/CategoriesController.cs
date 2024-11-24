@@ -7,7 +7,7 @@ using MultiShop.Catalog.Services.CategoryServices;
 namespace MultiShop.Catalog.Controllers
 {
     [Route("api/[controller]")]
-
+    [AllowAnonymous]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -17,6 +17,16 @@ namespace MultiShop.Catalog.Controllers
         {
             _categoryService = categoryService;
         }
+
+
+        [HttpGet("GetCategoriesWithProductCount")]
+        public async Task<IActionResult> GetCategoriesWithProductCount()
+        {
+            var values = await _categoryService.GetCategoriesWithCountsAsync();
+            return Ok(values);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetList()
         {

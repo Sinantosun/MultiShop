@@ -9,5 +9,7 @@ namespace MultiShop.Catalog.Services.CategoryServices
         Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
         Task DeleteCategoryAsync(string id);
         Task<ResultCategoryByIdDto> GetCategoryByIdAsync(string id);
+
+        Task<List<ResultCategoryWithCountDto>> GetCategoriesWithCountsAsync();
     }
 }
