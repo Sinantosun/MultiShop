@@ -11,42 +11,42 @@ namespace MultiShop.Catalog.Controllers
     [ApiController]
     public class SpecialOffersController : ControllerBase
     {
-        private readonly ISpecialOfferService _SpecialOfferService;
+        private readonly ISpecialOfferService _specialOfferService ;
 
         public SpecialOffersController(ISpecialOfferService SpecialOfferService)
         {
-            _SpecialOfferService = SpecialOfferService;
+            _specialOfferService  = SpecialOfferService;
         }
         //api yazildi kontorl edilcekç.
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
-            var values = await _SpecialOfferService.GetAllSpecialOfferAsync();
+            var values = await _specialOfferService .GetAllSpecialOfferAsync();
             return Ok(values);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var value = await _SpecialOfferService.GetSpecialOfferByIdAsync(id);
+            var value = await _specialOfferService .GetSpecialOfferByIdAsync(id);
             return Ok(value);
         }
         [HttpPost]
         public async Task<IActionResult> Add(CreateSpecialOfferDto createSpecialOfferDto)
         {
-            await _SpecialOfferService.CreateSpecialOfferAsync(createSpecialOfferDto);
+            await _specialOfferService .CreateSpecialOfferAsync(createSpecialOfferDto);
             return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Update(UpdateSpecialOfferDto updateSpecialOfferDto)
         {
-            await _SpecialOfferService.UpdateSpecialOfferAsync(updateSpecialOfferDto);
+            await _specialOfferService .UpdateSpecialOfferAsync(updateSpecialOfferDto);
             return Ok();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _SpecialOfferService.DeleteSpecialOfferAsync(id);
+            await _specialOfferService .DeleteSpecialOfferAsync(id);
             return Ok();
         }
     }

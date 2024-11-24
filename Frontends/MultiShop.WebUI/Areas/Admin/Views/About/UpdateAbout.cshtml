@@ -1,0 +1,36 @@
+﻿@model ResultAboutByIdDto
+@{
+    ViewData["Title"] = "UpdateAbout";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Hakkımızda Güncelleme Sayfası </h4>
+                <form method="post">
+                    <input type="hidden" asp-for="Id">
+
+                    <div class="form-group">
+                        <label for="exampleInputForAddress">Address</label>
+                        <input type="text" asp-for="Address" class="form-control" id="exampleInputForAddress" placeholder="Lütfen address yazınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForPhone">Telefon</label>
+                        <input type="text" asp-for="Phone" class="form-control" id="exampleInputForPhone" placeholder="Lütfen telefon numarası giriniz">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForEmail">Email</label>
+                        <input type="text" asp-for="Email" class="form-control" id="exampleInputForEmail" placeholder="Lütfen email adresi yazınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForDescription">Açıklama</label>
+                        <textarea type="text" rows="10" asp-for="Description" class="form-control" id="exampleInputForDescription" placeholder="Lütfen açıklama yazınız"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

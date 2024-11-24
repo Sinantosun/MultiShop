@@ -1,0 +1,29 @@
+﻿@model ResultBrandByIdDto
+@{
+    ViewData["Title"] = "UpdateBrand";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Yeni Marka Ekleme Sayfası </h4>
+                <form method="post">
+                    <input type="hidden" asp-for="Id">
+                    <div class="form-group">
+                        <label for="exampleInputForImage">Görsel</label>
+                        <input type="text" asp-for="ImageUrl" class="form-control" id="exampleInputForImage" placeholder="Lütfen görseli yazınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForBrandName">Marka Adı</label>
+                        <input type="text" asp-for="BrandName" class="form-control" id="exampleInputForBrandName" placeholder="Lütfen marka adını yazınız">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+

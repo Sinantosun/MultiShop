@@ -11,58 +11,58 @@ namespace MultiShop.Catalog.Controllers
     [ApiController]
     public class FeatureSlidersController : ControllerBase
     {
-        private readonly IFeatureSliderService _FeatureSliderService;
+        private readonly IFeatureSliderService _featureSliderService;
 
         public FeatureSlidersController(IFeatureSliderService FeatureSliderService)
         {
-            _FeatureSliderService = FeatureSliderService;
+            _featureSliderService = FeatureSliderService;
         }
         [HttpGet("GetActiveList")]
         public async Task<IActionResult> GetActiveList()
         {
-            var values = await _FeatureSliderService.GetTrueFeatureSliderListAsync();
+            var values = await _featureSliderService.GetTrueFeatureSliderListAsync();
             return Ok(values);
         }
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
-            var values = await _FeatureSliderService.GetAllFeatureSliderAsync();
+            var values = await _featureSliderService.GetAllFeatureSliderAsync();
             return Ok(values);
         }
         [HttpGet("ChangStatusToFalse")]
         public async Task<IActionResult> ChangStatusToFalse(string id)
         {
-            await _FeatureSliderService.ChangeFeatureSliderStatusToFalse(id);
+            await _featureSliderService.ChangeFeatureSliderStatusToFalse(id);
             return Ok();
         }
         [HttpGet("ChangStatusToTrue")]
         public async Task<IActionResult> ChangStatusToTrue(string id)
         {
-            await _FeatureSliderService.ChangeFeatureSliderStatusToTrue(id);
+            await _featureSliderService.ChangeFeatureSliderStatusToTrue(id);
             return Ok();
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var value = await _FeatureSliderService.GetFeatureSliderByIdAsync(id);
+            var value = await _featureSliderService.GetFeatureSliderByIdAsync(id);
             return Ok(value);
         }
         [HttpPost]
         public async Task<IActionResult> Add(CreateFeatureSliderDto createFeatureSliderDto)
         {
-            await _FeatureSliderService.CreateFeatureSliderAsync(createFeatureSliderDto);
+            await _featureSliderService.CreateFeatureSliderAsync(createFeatureSliderDto);
             return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Update(UpdateFeatureSliderDto updateFeatureSliderDto)
         {
-            await _FeatureSliderService.UpdateFeatureSliderAsync(updateFeatureSliderDto);
+            await _featureSliderService.UpdateFeatureSliderAsync(updateFeatureSliderDto);
             return Ok();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _FeatureSliderService.DeleteFeatureSliderAsync(id);
+            await _featureSliderService.DeleteFeatureSliderAsync(id);
             return Ok();
         }
     }

@@ -12,41 +12,41 @@ namespace MultiShop.Catalog.Controllers
     [ApiController]
     public class FeatureController : ControllerBase
     {
-        private readonly IFeatureService _FeatureService;
+        private readonly IFeatureService _featureService;
 
         public FeatureController(IFeatureService FeatureService)
         {
-            _FeatureService = FeatureService;
+            _featureService = FeatureService;
         }
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
-            var values = await _FeatureService.GetAllFeatureAsync();
+            var values = await _featureService.GetAllFeatureAsync();
             return Ok(values);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
-            var value = await _FeatureService.GetFeatureByIdAsync(id);
+            var value = await _featureService.GetFeatureByIdAsync(id);
             return Ok(value);
         }
         [HttpPost]
         public async Task<IActionResult> Add(CreateFeatureDto createFeatureDto)
         {
-            await _FeatureService.CreateFeatureAsync(createFeatureDto);
+            await _featureService.CreateFeatureAsync(createFeatureDto);
             return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Update(UpdateFeatureDto updateFeatureDto)
         {
-            await _FeatureService.UpdateFeatureAsync(updateFeatureDto);
+            await _featureService.UpdateFeatureAsync(updateFeatureDto);
             return Ok();
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _FeatureService.DeleteFeatureAsync(id);
+            await _featureService.DeleteFeatureAsync(id);
             return Ok();
         }
     }
