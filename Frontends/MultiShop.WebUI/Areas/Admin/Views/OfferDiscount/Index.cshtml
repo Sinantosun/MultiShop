@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@model List<ResultOfferDiscountDto>
+
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                @if (Model.Any() && Model.Count > 0)
+                {
+                    <h4>Ana Sayfa Özel Teklif Listesi</h4>
+                    <p>Ana Sayfa Özel Teklif alanları ile ilgili ekleme silme güncelleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
+                    <div class="bs-example" data-example-id="bordered-table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th>Görsel</th>
+                                    <th>Başlık</th>
+                                    <th>Alt Başlık</th>
+                                    <th>Buton Yazısı</th>
+                                    <th class="text-center" colspan="2">İşlemler</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td><img src="@item.ImageUrl" class="rounded" style="width:100%; height:200px" /></td>
+                                        <td>@item.Title</td>
+                                        <td>@item.SubTitle</td>
+                                        <td>@item.ButonTitle</td>
+                                        <td class="text-center" style="width:40px"><button onclick="deleteOfferDiscount('@item.Id')" class="btn btn-danger">Sil</button></td>
+                                        <td class="text-center" style="width:40px"><a href="~/Admin/OfferDiscount/UpdateOfferDiscount/@item.Id" class="btn btn-success">Güncelle</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert" style="display: flex; align-items: center;">
+                        <svg class="bi flex-shrink-0 me-2" width="20" height="20" role="img" aria-label="Info:">
+                            <use xlink:href="#info-fill" />
+                        </svg>
+                        <span style="margin-left: 8px; margin-top:4px">Kayıt Bulunamadı</span>
+                    </div>
+
+                }
+                <br />
+                <a href="~/Admin/OfferDiscount/CreateOfferDiscount" class="btn btn-primary ">Yeni Kayıt Girişi</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+    </symbol>
+</svg>
+
+<script>
+    function deleteOfferDiscount(id) {
+        Swal.fire({
+            title: "Kaydı silmek istediğinizden emin misiniz?",
+            text: "bu işlem geri alınamaz.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sil",
+            cancelButtonText: "Vazgeç"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/Admin/OfferDiscount/DeleteOfferDiscount/" + id;
+            }
+        });
+    }
+
+</script>
+
+
+
+

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "CreateOfferDiscount";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@model CreateOfferDiscountDto
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Özel teklif ekleme sayfası </h4>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="exampleInputForImage">Görsel</label>
+                        <input type="text" asp-for="ImageUrl" class="form-control" id="exampleInputForImage" placeholder="Lütfen görsel linkini yazınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForTitle">Başlık</label>
+                        <input type="text" asp-for="Title" class="form-control" id="exampleInputForTitle" placeholder="Lütfen başlık yazınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForSubTitle">Alt Başlık</label>
+                        <input type="text" asp-for="SubTitle" class="form-control" id="exampleInputForSubTitle" placeholder="Lütfen alt başlık yazınız">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForButon">Buton Yazısı</label>
+                        <input type="text" asp-for="ButonTitle" class="form-control" id="exampleInputForButon" placeholder="Lütfen buton adını yazınız">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
