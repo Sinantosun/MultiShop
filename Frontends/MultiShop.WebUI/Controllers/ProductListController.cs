@@ -4,8 +4,9 @@ namespace MultiShop.WebUI.Controllers
 {
     public class ProductListController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
+            ViewBag.CategoryId = id;    
             ViewBag.v1 = "Ana Sayfa";
             ViewBag.v2 = "Ürünler";
             ViewBag.v3 = "Ürün Listesi";

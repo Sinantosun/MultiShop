@@ -3,8 +3,6 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/UILayout/Index.cshtml";
 }
-
-
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-lg-3 col-md-4">
@@ -18,7 +16,7 @@
             <div class="row pb-3">
                 @await Component.InvokeAsync("_ProductListGetProductCountComponentPartial")
 
-                @await Component.InvokeAsync("_ProductListComponentPartial")
+                @await Component.InvokeAsync("_ProductListComponentPartial", new { categoryId = ViewBag.CategoryId })
 
                 @await Component.InvokeAsync("_ProductListPaginationComponentPartial")
             </div>

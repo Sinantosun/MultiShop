@@ -1,0 +1,48 @@
+﻿/* Preloader styles */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Şeffaf siyah arka plan */
+    display: flex;
+    flex-direction: column; /* Spinner ve metni dikey hizala */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 50px; /* %30 genişlik */
+    height: 50px; /* %30 yükseklik */
+    border: 5px solid #ddd;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px; /* Spinner ile metin arasında boşluk */
+}
+
+.preloader-text {
+    color: #fff; /* Beyaz renk */
+    font-size: 1.2rem; /* Yazı boyutu */
+    text-align: center; /* Metni ortala */
+    margin: 0;
+    padding: 0;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Body reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}

@@ -5,10 +5,15 @@
 
 <!DOCTYPE html>
 <html lang="tr">
-
+<link href="~/css/preloader.css" rel="stylesheet" />
+<script src="~/js/preloader.js"></script>
 @await Component.InvokeAsync("UILayoutHeadComponentPartial")
 
 <body>
+    <div id="preloader">
+        <div class="spinner"></div>
+        <p class="preloader-text">İşleminiz gerçekleştiriliyor, lütfen bekleyiniz.</p>
+    </div>
     @await Component.InvokeAsync("UILayoutNavbarComponentPartial")
     <div class="container-fluid">
         <div class="row px-xl-5">
