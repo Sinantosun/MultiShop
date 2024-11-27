@@ -1,0 +1,25 @@
+﻿@using MultiShop.DtoLayer.Dtos.ProductDtos
+
+
+@model List<ResultProductWithAttrubtuitesDto>
+@if (Model.Any() && Model.Count > 0)
+{
+    <form>
+        @foreach (var item in Model)
+        {
+            <div class="d-flex mb-3">
+                <strong class="text-dark mr-3">@item.TypeName:</strong>
+                @foreach (var item2 in item.Attrubuties)
+                {
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="size-1" name="size">
+                        <label class="custom-control-label" for="size-1">@item2.TypeValue</label>
+                    </div>
+                }
+
+
+            </div>
+        }
+
+    </form>
+}

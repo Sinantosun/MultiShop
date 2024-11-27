@@ -5,6 +5,8 @@ using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.FeatureDtos;
 using MultiShop.Catalog.Dtos.FeatureSliderDtos;
 using MultiShop.Catalog.Dtos.OfferDiscountDtos;
+using MultiShop.Catalog.Dtos.ProductAttributeTypeDtos;
+using MultiShop.Catalog.Dtos.ProductAttributeTypeValueDtos;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Dtos.ProductImageDtos;
@@ -21,6 +23,7 @@ namespace MultiShop.Catalog.Mapping
             CreateMap<Product, ResultProductByIdDto>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap();
             CreateMap<Product, CreateProductDto>().ReverseMap();
+            CreateMap<Product, ResultProductWithCategoriesDto>().ReverseMap();
             CreateMap<Product, GetProductsByCategoryIdDto>().ReverseMap();
 
             CreateMap<Category, ResultCategoryDto>().ReverseMap();
@@ -36,6 +39,7 @@ namespace MultiShop.Catalog.Mapping
             CreateMap<ProductImage, ResultProductImageDto>().ReverseMap();
             CreateMap<ProductImage, ResultProductImageByIdDto>().ReverseMap();
             CreateMap<ProductImage, UpdateProductImageDto>().ReverseMap();
+            CreateMap<ProductImage, ResultProductImageByProductIdDto>().ReverseMap();
             CreateMap<ProductImage, CreateProductImageDto>().ReverseMap();
 
 
@@ -70,6 +74,17 @@ namespace MultiShop.Catalog.Mapping
             CreateMap<About, ResultAboutByIdDto>().ReverseMap();
             CreateMap<About, CreateAboutDto>().ReverseMap();
             CreateMap<About, UpdateAboutDto>().ReverseMap();
+
+            CreateMap<ProductAttributeType, ResultProductAttributeTypeByIdDto>().ReverseMap();
+            CreateMap<ProductAttributeType, CreateProductAttributeTypeDto>().ReverseMap();
+            CreateMap<ProductAttributeType, ResultProductAttributeTypeDto>().ReverseMap();
+            CreateMap<ProductAttributeType, UpdateProductAttributeTypeDto>().ReverseMap();
+
+            CreateMap<ProductAttributeTypeValue, ResultProductAttributeTypeValueDto>().ReverseMap();
+            CreateMap<ProductAttributeTypeValue, ResultProductAttributeTypeValueByIdDto>().ReverseMap();
+            CreateMap<ProductAttributeTypeValue, CreateProductAttributeTypeValueDto>().ReverseMap();
+            CreateMap<ProductAttributeTypeValue, UpdateProductAttributeTypeValueDto>().ReverseMap();
+            
         }
     }
 }

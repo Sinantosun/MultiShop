@@ -13,6 +13,9 @@
         public string OfferDiscountCollectionName { get; set; }
         public string BrandCollectionName { get; set; }
         public string AboutCollectionName { get; set; }
+        public string ProductAttributeType { get; set; }
+        public string ProductAttributeTypeValue { get; set; }
+
         public string DatabaseName { get; set; }
     }
 }

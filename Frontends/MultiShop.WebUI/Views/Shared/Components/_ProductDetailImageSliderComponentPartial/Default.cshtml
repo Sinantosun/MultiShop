@@ -1,19 +1,31 @@
-﻿<div class="col-lg-5 mb-30">
+﻿@using MultiShop.DtoLayer.Dtos.ProductImageDtos
+@model ResultProductImageByProductIdDto
+<style>
+    .sliderimages{
+        width:100%;
+        height:500px !important;
+        object-fit:contain;
+    }
+</style>
+<div class="col-lg-5 mb-30">
     <div id="product-carousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner bg-light">
-            <div class="carousel-item active">
-                <img class="w-100 h-100" src="~/online-shop-website-template/img/product-1.jpg" alt="Image">
+       
+            <div class="carousel-inner bg-light">
+                <div class="carousel-item active">
+                    <img class="w-100 h-100 sliderimages" src="@Model.Image1" alt="Image">
+                </div>
+                <div class="carousel-item">
+                <img class="w-100 h-100 sliderimages" src="@Model.Image2" alt="Image">
+                </div>
+                <div class="carousel-item">
+                <img class="w-100 h-100 sliderimages" src="@Model.Image3" alt="Image">
+                </div>
+                <div class="carousel-item">
+                <img class="w-100 h-100 sliderimages" src="@Model.Image4" alt="Image">
+                </div>
             </div>
-            <div class="carousel-item">
-                <img class="w-100 h-100" src="~/online-shop-website-template/img/product-2.jpg" alt="Image">
-            </div>
-            <div class="carousel-item">
-                <img class="w-100 h-100" src="~/online-shop-website-template/img/product-3.jpg" alt="Image">
-            </div>
-            <div class="carousel-item">
-                <img class="w-100 h-100" src="~/online-shop-website-template/img/product-4.jpg" alt="Image">
-            </div>
-        </div>
+        
+      
         <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
             <i class="fa fa-2x fa-angle-left text-dark"></i>
         </a>
