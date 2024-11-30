@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using MultiShop.Catalog.Dtos.ProductImageDtos;
 using MultiShop.Catalog.Entites;
 using MultiShop.Catalog.Settings;
+using static MongoDB.Driver.WriteConcern;
 
 namespace MultiShop.Catalog.Services.ProductImageServices
 {
@@ -34,25 +35,58 @@ namespace MultiShop.Catalog.Services.ProductImageServices
         public async Task<List<ResultProductImageDto>> GetAllProductImageAsync()
         {
             var values = await _productImageCollcetion.Find(t => true).ToListAsync();
-            return _mapper.Map<List<ResultProductImageDto>>(values);
+            return values.Select(t => new ResultProductImageDto
+            {
+                ProductImageId = t.Id,
+                Image1 = t.Image1,
+                Image2 = t.Image2,
+                Image3 = t.Image3,
+                Image4 = t.Image4,
+                ProductId = t.ProductId
+
+            }).ToList();
         }
 
         public async Task<ResultProductImageByIdDto> GetProductImageByIdAsync(string id)
         {
             var values = await _productImageCollcetion.Find(t => t.Id == id).FirstOrDefaultAsync();
-            return _mapper.Map<ResultProductImageByIdDto>(values);
+            return new ResultProductImageByIdDto
+            {
+                ProductImageId = values.Id,
+                Image1 = values.Image1,
+                Image2 = values.Image2,
+                Image3 = values.Image3,
+                Image4 = values.Image4,
+                ProductId = values.ProductId
+            };
         }
 
         public async Task<ResultProductImageByProductIdDto> GetProductImagesByProductId(string productId)
         {
             var values = await _productImageCollcetion.Find(t => t.ProductId == productId).FirstOrDefaultAsync();
-            return _mapper.Map<ResultProductImageByProductIdDto>(values);
+            return new ResultProductImageByProductIdDto
+            {
+                ProductImageId = values.Id,
+                Image1 = values.Image1,
+                Image2 = values.Image2,
+                Image3 = values.Image3,
+                Image4 = values.Image4,
+                ProductId = values.ProductId
+            };
         }
 
         public async Task UpdateProductImageAsync(UpdateProductImageDto updateProductImageDto)
         {
-            var value = _mapper.Map<ProductImage>(updateProductImageDto);
-            await _productImageCollcetion.FindOneAndReplaceAsync(t => t.Id == updateProductImageDto.Id, value);
+            ProductImage entity = new ProductImage
+            {
+                Id = updateProductImageDto.ProductImageId,
+                Image1 = updateProductImageDto.Image1,
+                Image2 = updateProductImageDto.Image2,
+                Image3 = updateProductImageDto.Image3,
+                Image4 = updateProductImageDto.Image4,
+                ProductId = updateProductImageDto.ProductId
+            };
+            await _productImageCollcetion.FindOneAndReplaceAsync(t => t.Id == updateProductImageDto.ProductImageId, entity);
         }
     }
 }

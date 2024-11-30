@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDetailDtos;
 using MultiShop.Catalog.Services.ProductDetailServices;
@@ -7,6 +8,7 @@ namespace MultiShop.Catalog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class ProductDetailsController : ControllerBase
     {
         private readonly IProductDetailService _productDetailService;
@@ -19,6 +21,18 @@ namespace MultiShop.Catalog.Controllers
         public async Task<IActionResult> GetList()
         {
             var values = await _productDetailService.GetAllProductDetailAsync();
+            return Ok(values);
+        }
+        [HttpGet("ProductDetailDescriptionByIdAsync")]
+        public async Task<IActionResult> ProductDetailDescriptionByIdAsync(string productId)
+        {
+            var values = await _productDetailService.GetProductDescriptionByProductId(productId);
+            return Ok(values);
+        }
+        [HttpGet("ProductDetailInfoByIdAsync")]
+        public async Task<IActionResult> ProductDetailInfoByIdAsync(string productId)
+        {
+            var values = await _productDetailService.GetProductInfoByProductId(productId);
             return Ok(values);
         }
         [HttpGet("{id}")]

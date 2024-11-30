@@ -5,7 +5,6 @@ using MultiShop.Catalog.Dtos.CategoryDtos;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Entites;
 using MultiShop.Catalog.Settings;
-using static MongoDB.Driver.WriteConcern;
 
 namespace MultiShop.Catalog.Services.ProductServices
 {
@@ -83,11 +82,18 @@ namespace MultiShop.Catalog.Services.ProductServices
             //}
 
             var ProductValues = await _productCollection.Find(t => true).ToListAsync();
-            foreach (var item in ProductValues)
+            return ProductValues.Select(t => new ResultProductWithCategoriesDto
             {
-                item.Category = _categoryCollection.Find(u => u.Id == item.CategoryId).FirstOrDefault();
-            }
-            return _mapper.Map<List<ResultProductWithCategoriesDto>>(ProductValues);
+                ProductDescription = t.ProductDescription,
+
+                ProductImageUrl = t.ProductImageUrl,
+                ProductName = t.ProductName,
+                ProductId = t.Id,
+                Category = _mapper.Map<ResultCategoryDto>(_categoryCollection.Find(u => u.Id == t.CategoryId).FirstOrDefault()),
+                ProductPrice = t.ProductPrice,
+                
+
+            }).ToList();
 
         }
 
@@ -123,7 +129,7 @@ namespace MultiShop.Catalog.Services.ProductServices
             var AttrubtesList = await _productAttributeTypeValue.Find(t => t.ProductId == productId).ToListAsync();
             var AttritesNames = AttrubtesList.DistinctBy(a => a.ProductAttributeTypeId).Select(b => new ResultProductWithAttrubtuitesDto
             {
-                
+
                 TypeName = _productAttributeType.Find(c => c.ProductAttributeTypeId == b.ProductAttributeTypeId).FirstOrDefault().TypeName,
                 Attrubuties = _productAttributeTypeValue.AsQueryable().Where(u => u.ProductId == productId && u.ProductAttributeTypeId == b.ProductAttributeTypeId).Select(z => new ProductDetailAttrubiteDto()
                 {

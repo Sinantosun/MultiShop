@@ -1,0 +1,41 @@
+﻿@model ResultProductImageByProductIdDto
+@{
+    ViewData["Title"] = "ProductImageDetail";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Hakkımızda Güncelleme Sayfası </h4>
+                <form method="post">
+                    <input type="hidden" asp-for="ProductImageId">
+
+                    <div class="form-group">
+                        <label for="exampleInputForAddress">1. Görsel</label>
+                        <input type="text" asp-for="Image1" class="form-control" id="exampleInputForAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForPhone">2.Görsel</label>
+                        <input type="text" asp-for="Image2" class="form-control" id="exampleInputForPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForEmail">3.Görsel</label>
+                        <input type="text" asp-for="Image3" class="form-control" id="exampleInputForEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForEmail">4.Görsel</label>
+                        <input type="text" asp-for="Image4" class="form-control" id="exampleInputForEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputForEmail">Ürün Id</label>
+                        <input type="text" asp-for="ProductId" class="form-control" id="exampleInputForEmail">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

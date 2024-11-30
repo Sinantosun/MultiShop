@@ -19,7 +19,7 @@
                             <thead>
                                 <tr>
 
-                                    <th>Görsel</th>
+                            
                                     <th>Ürün Adı</th>
                                     <th>Fiyat</th>
                                     <th>Açıklama</th>
@@ -33,13 +33,13 @@
                                 {
 
                                     <tr>
-                                        <td style="width:110px"><img src="@item.ProductImageUrl" class="rounded" style="width:100px; height:100px" /></td>
                                         <td>@item.ProductName</td>
                                         <td>@item.ProductPrice.ToString("C2")</td>
-                                        <td>@(item.ProductDescription.Length > 500 ? item.ProductDescription.Substring(0, item.ProductDescription.Substring(0, 500).LastIndexOf(" ")) : item.ProductDescription)</td>
+                                        <td>@(item.ProductDescription.Length > 100 ? item.ProductDescription.Substring(0, item.ProductDescription.Substring(0, 100).LastIndexOf(" ")) + "..." : item.ProductDescription)</td>
                                         <td>@item.Category.CategoryName</td>
-                                        <td class="text-center" style="width:40px"><button onclick="deleteProduct('@item.Id')" class="btn btn-danger">Sil</button></td>
-                                        <td class="text-center" style="width:40px"><a href="~/Admin/Product/UpdateProduct/@item.Id" class="btn btn-success">Güncelle</a></td>
+                                        <td class="text-center" style="width:40px"><button onclick="deleteProduct('@item.ProductId')" class="btn btn-danger">Sil</button></td>
+                                        <td class="text-center" style="width:40px"><a href="~/Admin/Product/UpdateProduct/@item.ProductId" class="btn btn-success">Güncelle</a></td>
+                                        <td class="text-center" style="width:40px"><a href="~/Admin/ProductImage/ProductImageDetail/@item.ProductId" class="btn btn-warning">Ürün Görselleri</a></td>
                                     </tr>
                                 }
                             </tbody>
