@@ -45,7 +45,7 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
             }).ToList();
         }
 
-        public async Task<ResultProductDescriptionByProductIdDto> GetProductDescriptionByProductId(string id)
+        public async Task<ResultProductDescriptionByProductIdDto> GetProductDescriptionByProductIdAsync(string id)
         {
             var value = await _productDetailCollection.Find(t => t.ProductId == id).FirstOrDefaultAsync();
             return new ResultProductDescriptionByProductIdDto
@@ -68,7 +68,20 @@ namespace MultiShop.Catalog.Services.ProductDetailServices
             };
         }
 
-        public async Task<ResultProductInfoByProductIdDto> GetProductInfoByProductId(string id)
+        public async Task<ResultProductDetailByProductIdDto> GetProductDetailByProductIdAsync(string id)
+        {
+            var values = await _productDetailCollection.Find(t => t.ProductId == id).FirstOrDefaultAsync();
+            return new ResultProductDetailByProductIdDto
+            {
+                ProductDescription = values.ProductDescription,
+                ProductDetailId = values.Id,
+                ProductInfo = values.ProductInfo,
+                ProductId = values.ProductId,
+
+            };
+        }
+
+        public async Task<ResultProductInfoByProductIdDto> GetProductInfoByProductIdAsync(string id)
         {
             var value = await _productDetailCollection.Find(t => t.ProductId == id).FirstOrDefaultAsync();
             return new ResultProductInfoByProductIdDto

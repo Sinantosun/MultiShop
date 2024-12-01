@@ -14,6 +14,8 @@ namespace MultiShop.Catalog.Services.ProductServices
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMongoCollection<ProductAttributeType> _productAttributeType;
         private readonly IMongoCollection<ProductAttributeTypeValue> _productAttributeTypeValue;
+        private readonly IMongoCollection<ProductImage> _productImageCollection;
+        private readonly IMongoCollection<ProductDetail> _productDetailCollection;
         private readonly IMapper _mapper;
 
         public ProductService(IMapper mapper, IDatabaseSettings databaseSettings)
@@ -24,14 +26,45 @@ namespace MultiShop.Catalog.Services.ProductServices
             _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
             _productAttributeType = database.GetCollection<ProductAttributeType>(databaseSettings.ProductAttributeType);
             _productAttributeTypeValue = database.GetCollection<ProductAttributeTypeValue>(databaseSettings.ProductAttributeTypeValue);
+            _productImageCollection = database.GetCollection<ProductImage>(databaseSettings.ProductImageCollectionName);
+            _productDetailCollection = database.GetCollection<ProductDetail>(databaseSettings.ProductDetailCollectionName);
             _mapper = mapper;
 
         }
 
         public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
-            var value = _mapper.Map<Product>(createProductDto);
-            await _productCollection.InsertOneAsync(value);
+            var product = new Product()
+            {
+                CategoryId = createProductDto.CategoryId,
+                ProductName = createProductDto.ProductName,
+                ProductDescription = createProductDto.ProductDescription,
+                ProductImageUrl = createProductDto.ProductImageUrl,
+                ProductPrice = createProductDto.ProductPrice,
+            };
+            await _productCollection.InsertOneAsync(product);
+
+            var productId = product.Id;
+
+            var productDetail = new ProductDetail()
+            {
+                ProductDescription = createProductDto.ProductDetailDescription,
+                ProductId = productId,
+                ProductInfo = createProductDto.ProductInfo,
+            };
+            await _productDetailCollection.InsertOneAsync(productDetail);
+
+            var producrSliderImage = new ProductImage()
+            {
+                ProductId = product.Id,
+                Image1 = createProductDto.Image1,
+                Image2 = createProductDto.Image2,
+                Image3 = createProductDto.Image3,
+                Image4 = createProductDto.Image4,
+                
+            };
+            await _productImageCollection.InsertOneAsync(producrSliderImage);
+
         }
 
         public async Task DeleteProductAsync(string id)
@@ -59,27 +92,6 @@ namespace MultiShop.Catalog.Services.ProductServices
 
         public async Task<List<ResultProductWithCategoriesDto>> GetProductWithCategoriesAsync()
         {
-            //List<ResultProductWithCategoriesDto> result = new List<ResultProductWithCategoriesDto>();
-            //var ProductValues = await _productCollection.Find(t => true).ToListAsync();
-            //foreach (var item in ProductValues)
-            //{
-            //    var category1 = _categoryCollection.Find(t => true).ToList();
-            //    var category = _categoryCollection.Find(t => t.Id == item.CategoryId).FirstOrDefault();
-            //    if (category != null)
-            //    {
-            //        var mappedValue = _mapper.Map<ResultCategoryDto>(category);
-            //        result.Add(new ResultProductWithCategoriesDto
-            //        {
-            //            Id = item.Id,
-            //            ProductDescription = item.ProductDescription,
-            //            ProductImageUrl = item.ProductImageUrl,
-            //            ProductName = item.ProductName,
-            //            ProductPrice = item.ProductPrice,
-            //            Category = mappedValue,
-
-            //        });
-            //    }
-            //}
 
             var ProductValues = await _productCollection.Find(t => true).ToListAsync();
             return ProductValues.Select(t => new ResultProductWithCategoriesDto
@@ -91,7 +103,7 @@ namespace MultiShop.Catalog.Services.ProductServices
                 ProductId = t.Id,
                 Category = _mapper.Map<ResultCategoryDto>(_categoryCollection.Find(u => u.Id == t.CategoryId).FirstOrDefault()),
                 ProductPrice = t.ProductPrice,
-                
+
 
             }).ToList();
 
@@ -100,29 +112,6 @@ namespace MultiShop.Catalog.Services.ProductServices
         public async Task<List<ResultProductWithAttrubtuitesDto>> GetProductAttrubitesByProductIdAsync(string productId)
         {
 
-
-            //var product = await _productCollection.Find(t => t.Id == productId).FirstOrDefaultAsync();
-
-            //var AttrubtesList = await _productAttributeTypeValue.Find(t => t.ProductId == productId).ToListAsync();
-            //var AttritesNames = AttrubtesList.DistinctBy(a => a.ProductAttributeTypeId).Select(b => new ResultProductWithAttrubtuitesDto
-            //{
-            //    CategoryId = product.CategoryId,
-            //    ProductDescription = product.ProductDescription,
-            //    ProductImageUrl = product.ProductImageUrl,
-            //    ProductName = product.ProductName,
-            //    ProductPrice = product.ProductPrice,
-            //    ProductId = productId,
-            //    AttrubuteName = _productAttributeType.Find(c => c.ProductAttributeTypeId == b.ProductAttributeTypeId).FirstOrDefault().TypeName,
-            //    Attrubuties = _productAttributeTypeValue.AsQueryable().Where(u => u.ProductId == productId && u.ProductAttributeTypeId == b.ProductAttributeTypeId).Select(z => new ProductDetailAttrubiteDto()
-            //    {
-            //        TypeValue = z.AttributeValue,
-
-
-            //    }).ToList(),
-
-            //}).FirstOrDefault();
-
-            //return AttritesNames;
 
             var product = await _productCollection.Find(t => t.Id == productId).FirstOrDefaultAsync();
 

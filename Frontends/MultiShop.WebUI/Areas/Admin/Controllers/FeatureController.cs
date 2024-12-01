@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MultiShop.DtoLayer.Dtos.FeatureDtos;
+using MultiShop.DtoLayer.Dtos.CatalogDtos.FeatureDtos;
 using MultiShop.WebUI.Services;
 using Newtonsoft.Json;
 using System.Text;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MultiShop.DtoLayer.Dtos.OfferDiscountDtos;
+using MultiShop.DtoLayer.Dtos.CatalogDtos.OfferDiscountDtos;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.CatalogComponents

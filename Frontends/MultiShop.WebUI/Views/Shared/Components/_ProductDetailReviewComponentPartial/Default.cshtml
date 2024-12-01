@@ -1,52 +1,117 @@
-﻿<div class="tab-pane fade" id="tab-pane-3">
+﻿@model ResultProductReviewByProductIdDto
+<style>
+    .star-rating i {
+        cursor: pointer;
+        color: #ccc; /* Boş yıldız rengi */
+    }
+
+    .star-rating .filled {
+        color: #ffcc00; /* Dolu yıldız rengi */
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('.star-rating i');
+        let currentRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const rating = parseInt(star.getAttribute('data-index'));
+                setRating(rating);
+            });
+        });
+
+        function setRating(rating) {
+            currentRating = rating;
+
+            stars.forEach(star => {
+                star.classList.remove('filled');
+            });
+
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add('filled');
+            }
+            const textbox = document.getElementById("starvalue");
+            textbox.value = currentRating;
+        }
+
+
+    });
+</script>
+<div class="tab-pane fade" id="tab-pane-3">
     <div class="row">
         <div class="col-md-6">
-            <h4 class="mb-4">1 review for "Product Name"</h4>
-            <div class="media mb-4">
-                <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                <div class="media-body">
-                    <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                    <div class="text-primary mb-2">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <i class="far fa-star"></i>
+            @if (Model.UserComments.Any() && Model.UserComments.Count > 0)
+            {
+                <h4 class="mb-4">Bu Ürüne @Model.ProductReviewCount  Tane Yorum Yapıldı</h4>
+                @foreach (var item in Model.UserComments)
+                {
+                    <div class="media mb-4">
+                        <img src="https://img.freepik.com/free-vector/user-circles-set_78370-4704.jpg?t=st=1733069639~exp=1733073239~hmac=eea43a3f649b8460adf037f7700a4d713e9eaaca29818ac9622544b08ef1da52&w=740" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                        <div class="media-body">
+                            <h6>@item.NameSurname<small> - <i>@item.CreatedDate.ToString("dd/mm/yyyy")</i></small></h6>
+                            <div class="text-primary mb-2">
+                                @for (int i = 0; i < item.Rating; i++)
+                                {
+                                    <i class="fa fa-star text-primary"></i>
+                                }
+                                @for (int i = 0; i < 5 - item.Rating; i++)
+                                {
+                                    <i class="far fa-star text-primarytext-primary"></i>
+                                }
+                            </div>
+                            <p>@item.CommentDetail</p>
+                        </div>
                     </div>
-                    <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                </div>
-            </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning">Bu Ürüne Henüz Yorum Yapılmadı</div>
+            }
+
+
+
         </div>
+
         <div class="col-md-6">
-            <h4 class="mb-4">Leave a review</h4>
-            <small>Your email address will not be published. Required fields are marked *</small>
+            <h4 class="mb-4">Bu Ürüne Yorum Bırakın</h4>
+            <small>* İşaretli alanlar gereklidir</small>
             <div class="d-flex my-3">
-                <p class="mb-0 mr-2">Your Rating * :</p>
-                <div class="text-primary">
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
+                <p class="mb-0 mr-2">Yıldız * :</p>
+                <div class="text-primary star-rating">
+                    <i class="fa fa-star" data-index="1"></i>
+                    <i class="fa fa-star" data-index="2"></i>
+                    <i class="fa fa-star" data-index="3"></i>
+                    <i class="fa fa-star" data-index="4"></i>
+                    <i class="fa fa-star" data-index="5"></i>
                 </div>
+
             </div>
-            <form>
+            <form method="post" asp-controller="ProductList" asp-action="CreateReview">
+                <input type="hidden" name="Rating" id="starvalue">
+                <input type="hidden" name="ProductId" value="@Model.ProductId">
                 <div class="form-group">
-                    <label for="message">Your Review *</label>
-                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                    <label for="message">Yorumunuz *</label>
+                    <textarea id="message" name="CommentDetail" cols="30" rows="5" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="name">Your Name *</label>
-                    <input type="text" class="form-control" id="name">
+                    <label for="name">Adınız Soyadınız *</label>
+                    <input type="text" name="NameSurname" class="form-control" id="name">
                 </div>
                 <div class="form-group">
-                    <label for="email">Your Email *</label>
-                    <input type="email" class="form-control" id="email">
+                    <label for="email">E Posta Adresiniz *</label>
+                    <input type="email" name="Email" class="form-control" id="email">
                 </div>
                 <div class="form-group mb-0">
                     <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
                 </div>
             </form>
+            <br />
+            @await Html.PartialAsync("~/Views/Notification/Index.cshtml")
+
+
         </div>
+
     </div>
 </div>

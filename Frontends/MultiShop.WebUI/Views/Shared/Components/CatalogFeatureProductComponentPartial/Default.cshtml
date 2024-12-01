@@ -1,4 +1,4 @@
-﻿@using MultiShop.DtoLayer.Dtos.ProductDtos
+﻿@using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos
 @model List<ResultProductDto>
 <div class="container-fluid pt-5 pb-3">
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Öne Çıkan Ürünler</span></h2>
@@ -9,7 +9,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="@item.ProductImageUrl" alt="">
+                        <img class="img-fluid w-100" style="height:500px" src="@item.ProductImageUrl" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="text-center py-4">
-                        <a class="h6 text-decoration-none text-truncate" href="/ProductList/ProductDetail/@item.Id">@item.ProductName</a>
+                        <a class="h6 text-decoration-none text-truncate" href="/ProductList/ProductDetail/@item.Id">@(item.ProductName.Length > 20 ? @item.ProductName.Substring(0, item.ProductName.Substring(0, 20).LastIndexOf(" ")) : item.ProductName)</a>
                         <div class="d-flex align-items-center justify-content-center mt-2">
                             <h5>@item.ProductPrice.ToString("C2")</h5><h6 class="text-muted ml-2">
                                 <del>

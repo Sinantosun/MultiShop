@@ -4,3 +4,4 @@ Discount => https://localhost:7071
 Order => https://localhost:7072
 Cargo => https://localhost:7073
 Basket => https://localhost:7074
+Comment => https://localhost:7075

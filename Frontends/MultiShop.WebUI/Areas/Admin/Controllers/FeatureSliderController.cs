@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MultiShop.DtoLayer.Dtos.FeatureSliderDtos;
-using MultiShop.DtoLayer.Dtos.ProductDtos;
+using MultiShop.DtoLayer.Dtos.CatalogDtos.FeatureSliderDtos;
+using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos;
 using MultiShop.WebUI.Services;
 using Newtonsoft.Json;
 using System.Net.Http;

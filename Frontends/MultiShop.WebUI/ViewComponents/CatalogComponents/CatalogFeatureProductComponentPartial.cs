@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MultiShop.DtoLayer.Dtos.ProductDtos;
+using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.CatalogComponents
