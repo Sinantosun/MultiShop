@@ -1,0 +1,93 @@
+﻿@model CreateRegisterDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Üyelik İşlemleri</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/css/opensans-font.css">
+	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-30/fonts/line-awesome/css/line-awesome.min.css">
+
+	<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+
+	<link rel="stylesheet" href="~/colorlib-regform-30/css/style.css" />
+	<style>
+		.btn{
+			height:30px;
+			width:150px;
+			background-color:azure;
+			padding:10px;
+			text-decoration:none;
+			color: #333;
+			
+			border-top-left-radius:20px;
+			border-bottom-right-radius:20px;
+			font-weight:bold;
+			font-family:'Open Sans', sans-serif;
+		}
+	</style>
+</head>
+
+<body class="form-v4" >
+	<div class="page-content" style="height:100vh !important">
+		<div class="form-v4-content">
+			<div class="form-left">
+				<h2>MultiShop E Ticaret</h2>
+				<p class="text-1">E ticaret işlemlerinizi gerçekleştirebilmek için indirimli ürünler ve fırsatlardan haberdar olmak adına bir dakika da kayıt işlemini gerçekleştirin</p>
+				<p class="text-2">Eğer hesabınız varsa kayıt olmaya gerek olmadan aşağıdaki link üzerinden mevcut hesabınızla giriş yapabilirsiniz</p>
+				<br />
+				<div class="form-left-last">
+					<a href="/Login/Index" class="btn">Giriş Yap</a>
+				</div>
+				<br />
+
+			</div>
+			<form class="form-detail" method="post" id="myform">
+				<h2>MultiShop Kayıt Formu </h2>
+				<div class="form-group">
+				
+					<div class="form-row form-row-1">
+						<label for="first_name">Adınız</label>
+						<input type="text" asp-for="Name"  id="first_name" class="input-text">
+					</div>
+					<div class="form-row form-row-1">
+						<label for="last_name">Soyadınız</label>
+						<input type="text" asp-for="Surname"  id="last_name" class="input-text">
+					</div>
+				</div>
+				<div class="form-row">
+					<label for="user_name">Kullanıcı Adınız</label>
+					<input type="text" asp-for="UserName"  id="user_name" class="input-text">
+				</div>
+				<div class="form-row">
+					<label for="your_email">Email Adresiniz</label>
+					<input type="text"  asp-for="Email" id="your_email" class="input-text" required >
+				</div>
+				<div class="form-group">
+					<div class="form-row form-row-1 ">
+						<label for="password">Şifreniz</label>
+						<input type="password"  asp-for="Password" id="password" class="input-text" required>
+					</div>
+					<div class="form-row form-row-1">
+						<label for="comfirm-password">Şifreniz Yeniden</label>
+						<input type="password"  asp-for="ConfirmPassword" id="comfirm_password" class="input-text" required>
+					</div>
+				</div>
+			
+				<div class="form-row-last">
+					<input type="submit" name="register" class="register" value="Kayıt Ol">
+				</div>
+				@await Html.PartialAsync("~/Views/Notification/Index.cshtml")
+
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

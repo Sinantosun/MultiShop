@@ -34,7 +34,12 @@ namespace MultiShop.IdentityServer
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(opts =>
+            {
+                opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrsştuvwxyzABCDEFGHIJKLMNOPQRSŞTUVWXYZ0123456789";
+                opts.User.RequireUniqueEmail = true;
+                
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

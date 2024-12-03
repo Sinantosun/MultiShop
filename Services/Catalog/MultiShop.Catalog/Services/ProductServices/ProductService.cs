@@ -24,8 +24,8 @@ namespace MultiShop.Catalog.Services.ProductServices
             var database = client.GetDatabase(databaseSettings.DatabaseName);
             _productCollection = database.GetCollection<Product>(databaseSettings.ProductCollectionName);
             _categoryCollection = database.GetCollection<Category>(databaseSettings.CategoryCollectionName);
-            _productAttributeType = database.GetCollection<ProductAttributeType>(databaseSettings.ProductAttributeType);
-            _productAttributeTypeValue = database.GetCollection<ProductAttributeTypeValue>(databaseSettings.ProductAttributeTypeValue);
+            _productAttributeType = database.GetCollection<ProductAttributeType>(databaseSettings.ProductAttributeTypeCollectionName);
+            _productAttributeTypeValue = database.GetCollection<ProductAttributeTypeValue>(databaseSettings.ProductAttributeTypeValueCollectionName);
             _productImageCollection = database.GetCollection<ProductImage>(databaseSettings.ProductImageCollectionName);
             _productDetailCollection = database.GetCollection<ProductDetail>(databaseSettings.ProductDetailCollectionName);
             _mapper = mapper;

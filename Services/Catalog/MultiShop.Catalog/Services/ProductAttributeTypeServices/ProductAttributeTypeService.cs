@@ -15,7 +15,7 @@ namespace MultiShop.Catalog.Services.ProductAttributeTypeServices
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
-            _productAttributeTypeCollection = database.GetCollection<ProductAttributeType>(databaseSettings.ProductAttributeType);
+            _productAttributeTypeCollection = database.GetCollection<ProductAttributeType>(databaseSettings.ProductAttributeTypeCollectionName);
             _mapper = mapper;
 
         }

@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\colorlib-regform-30\fonts\line-awesome\fonts\line-awesome.svg" />
+    <None Include="wwwroot\colorlib-regform-30\fonts\line-awesome\fonts\line-awesome.woff2" />
     <None Include="wwwroot\MainDownload-OvioAdmin-html5-template\help-documentation\assets\.DS_Store" />
     <None Include="wwwroot\MainDownload-OvioAdmin-html5-template\help-documentation\assets\blueprint-css\plugins\.DS_Store" />
     <None Include="wwwroot\MainDownload-OvioAdmin-html5-template\html\app\et-line-font\fonts\.DS_Store" />
@@ -24,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
