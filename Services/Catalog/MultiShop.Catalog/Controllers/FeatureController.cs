@@ -8,7 +8,6 @@ namespace MultiShop.Catalog.Controllers
 {
   
     [Route("api/[controller]")]
-    [AllowAnonymous]
     [ApiController]
     public class FeatureController : ControllerBase
     {

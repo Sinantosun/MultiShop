@@ -8,7 +8,6 @@ namespace MultiShop.Catalog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class OfferDiscountsController : ControllerBase
     {
         private readonly IOfferDiscountService _offerDiscountService;

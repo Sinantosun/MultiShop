@@ -8,7 +8,6 @@ namespace MultiShop.Catalog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class AboutsController : ControllerBase
     {
         private readonly IAboutService _aboutService;

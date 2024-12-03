@@ -8,7 +8,6 @@ namespace MultiShop.Catalog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class ProductAttributeTypeValueController : ControllerBase
     {
         private readonly IProductAttributeTypeValueService _ProductAttributeTypeValueService;

@@ -65,8 +65,8 @@ namespace MultiShop.IdentityServer
                     new Secret("multishopsecret".Sha256())
                 },
                 AllowedScopes = {
-                    "DiscountFullPermission"
-                }
+                    "DiscountFullPermission", "CatalogFullPermission","CatalogReadPermission"
+				}
             },
             #endregion
 
@@ -80,8 +80,8 @@ namespace MultiShop.IdentityServer
                     new Secret("multishopsecret".Sha256())
                 },
                  AllowedScopes = {
-                    "CatalogFullPermission","CatalogReadPermission"
-                }
+                    "CatalogFullPermission","CatalogReadPermission","BasketFullPermission"
+				}
 
             },
             #endregion

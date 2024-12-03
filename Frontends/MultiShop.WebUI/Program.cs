@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MultiShop.WebUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<ILoginService,LoginService>();
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opts =>
+{
+    opts.LoginPath = "/Login/Index";
+    opts.LogoutPath = "/Login/LogOut";
+    opts.AccessDeniedPath = "/Pages/AccsessDenied";
+    opts.Cookie.HttpOnly = true;
+    opts.Cookie.SameSite = SameSiteMode.Strict;
+    opts.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    opts.Cookie.Name = "MultiShopJwt";
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -21,7 +36,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
