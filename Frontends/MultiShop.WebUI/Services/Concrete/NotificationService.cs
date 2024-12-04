@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MultiShop.WebUI.Enums;
 
-namespace MultiShop.WebUI.Services
+namespace MultiShop.WebUI.Services.Concrete
 {
     public class NotificationService
     {
@@ -33,7 +33,7 @@ namespace MultiShop.WebUI.Services
             SetTempdata("warning", message);
         }
 
-        private void SetTempdata(string icon,string message)
+        private void SetTempdata(string icon, string message)
         {
             _tempdata[_tempdataMessageKey] = message;
             _tempdata[_tempdataTypeKey] = icon;

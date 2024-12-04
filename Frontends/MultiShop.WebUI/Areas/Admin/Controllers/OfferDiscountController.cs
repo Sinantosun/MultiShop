@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.OfferDiscountDtos;
-using MultiShop.WebUI.Services;
+using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
 

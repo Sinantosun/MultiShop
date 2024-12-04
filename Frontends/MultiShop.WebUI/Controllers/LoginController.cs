@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.IdentityDtos.LoginDtos;
 using MultiShop.WebUI.Models;
-using MultiShop.WebUI.Services;
+using MultiShop.WebUI.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,60 +11,77 @@ using System.Text.Json;
 
 namespace MultiShop.WebUI.Controllers
 {
-	public class LoginController : Controller
-	{
-		private readonly IHttpClientFactory _httpClientFactory;
-		private readonly ILoginService _loginService;
-		public LoginController(IHttpClientFactory httpClientFactory, ILoginService loginService)
-		{
-			_httpClientFactory = httpClientFactory;
-			_loginService = loginService;
-		}
+    public class LoginController : Controller
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ILoginService _loginService;
+        private readonly IIdentityService _identityService;
+        public LoginController(IHttpClientFactory httpClientFactory, ILoginService loginService, IIdentityService identityService)
+        {
+            _httpClientFactory = httpClientFactory;
+            _loginService = loginService;
+            _identityService = identityService;
+        }
 
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
-		[HttpPost]
-		public async Task<IActionResult> Index(LoginDto logindto)
-		{
-			
-			var client = _httpClientFactory.CreateClient();
-			var content = new StringContent(JsonSerializer.Serialize(logindto), Encoding.UTF8, "application/json");
-			var response = await client.PostAsync("http://localhost:5001/api/Logins", content);
-			if (response.IsSuccessStatusCode)
-			{
-				var jsondata = await response.Content.ReadAsStringAsync();
-				var tokenmodel = JsonSerializer.Deserialize<JwtResponseModel>(jsondata, new JsonSerializerOptions
-				{
-					PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(LoginDto logindto)
+        {
 
-				});
+            var client = _httpClientFactory.CreateClient();
+            var content = new StringContent(JsonSerializer.Serialize(logindto), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("http://localhost:5001/api/Logins", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsondata = await response.Content.ReadAsStringAsync();
+                var tokenmodel = JsonSerializer.Deserialize<JwtResponseModel>(jsondata, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 
-				if (tokenmodel != null)
-				{
-					JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-					var token = handler.ReadJwtToken(tokenmodel.Token);
-					var claims = token.Claims.ToList();
+                });
 
-					if (tokenmodel.Token != null)
-					{
-						claims.Add(new Claim("multishoptoken",tokenmodel.Token));
-						var claimsIdentity = new ClaimsIdentity(claims,JwtBearerDefaults.AuthenticationScheme);
-						var authProprs = new AuthenticationProperties
-						{
-							ExpiresUtc = tokenmodel.ExpireDate,
-							IsPersistent = true,
-						};
+                if (tokenmodel != null)
+                {
+                    JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+                    var token = handler.ReadJwtToken(tokenmodel.Token);
+                    var claims = token.Claims.ToList();
 
-						await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme,new ClaimsPrincipal(claimsIdentity),authProprs);
-						var id = _loginService.GetUserId;
-						return RedirectToAction("Index", "Default");
-					}
-				}
-			}
-			return View();
-		}
-	}
+                    if (tokenmodel.Token != null)
+                    {
+                        claims.Add(new Claim("multishoptoken", tokenmodel.Token));
+                        var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+                        var authProprs = new AuthenticationProperties
+                        {
+                            ExpiresUtc = tokenmodel.ExpireDate,
+                            IsPersistent = true,
+                        };
+
+                        await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProprs);
+                        var id = _loginService.GetUserId;
+                        return RedirectToAction("Index", "Default");
+                    }
+                }
+            }
+            return View();
+        }
+
+
+        public async Task<IActionResult> SignIn(SignInDto signInDto)
+        {
+            signInDto.UserName = "ali01";
+            signInDto.Password = "123456aA*";
+
+            // var result = await _identityService.SignInAsync(signInDto);
+            var result = true;
+            if (result)
+            {
+                return RedirectToAction("Index", "Test");
+            }
+            return View();
+        }
+    }
 }

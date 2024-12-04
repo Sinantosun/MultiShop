@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.CategoryDtos;
-using MultiShop.WebUI.Services;
+using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace MultiShop.WebUI.Controllers
 {
@@ -18,7 +20,7 @@ namespace MultiShop.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string token;
+            string token = "";
             using (var httclient = new HttpClient())
             {
                 var request = new HttpRequestMessage
@@ -51,6 +53,7 @@ namespace MultiShop.WebUI.Controllers
             }
 
             var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",token);
             var responseMessage = await client.GetAsync("https://localhost:7070/api/Categories");
             if (responseMessage.IsSuccessStatusCode)
             {

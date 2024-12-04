@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.CategoryDtos;
 using MultiShop.WebUI.Areas.Admin.ViewComponents.AdminLayoutViewComponents;
-using MultiShop.WebUI.Services;
+using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
 

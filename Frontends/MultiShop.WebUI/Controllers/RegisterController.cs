@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.IdentityDtos.RegisterDtos;
-using MultiShop.WebUI.Services;
+using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace MultiShop.WebUI.Controllers
 {
-	public class RegisterController : Controller
+    public class RegisterController : Controller
 	{
 		private readonly IHttpClientFactory _httpClientFactory;
 		private readonly NotificationService _notificationService;
