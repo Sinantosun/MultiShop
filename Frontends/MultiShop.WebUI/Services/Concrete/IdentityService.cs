@@ -16,41 +16,93 @@ namespace MultiShop.WebUI.Services.Concrete
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ClientSettings _clientSettings;
 
-        public IdentityService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings)
+        private readonly ServiceApiSettings _serviceApiSettings;
+
+        public IdentityService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor, IOptions<ClientSettings> clientSettings, IOptions<ServiceApiSettings> serviceApiSettings)
         {
             _httpClient = httpClient;
             _httpContextAccessor = httpContextAccessor;
             _clientSettings = clientSettings.Value;
+            _serviceApiSettings = serviceApiSettings.Value;
+        }
+
+        public async Task<bool> GetRefreshToken()
+        {
+            var discoveryEndPoint = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.IdentityServerUrl,
+                Policy = new DiscoveryPolicy
+                {
+                    RequireHttps = false,
+                }
+            });
+
+            var refreshtoken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest
+            {
+                ClientId = _clientSettings.MultiShopManagerClient.ClientId,
+                ClientSecret = _clientSettings.MultiShopManagerClient.ClientSecret,
+                RefreshToken = refreshtoken,
+                Address = discoveryEndPoint.TokenEndpoint
+            };
+
+            var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
+
+
+            var authenticationToken = new List<AuthenticationToken>()
+            {
+                new AuthenticationToken
+                {
+                    Name=OpenIdConnectParameterNames.AccessToken,
+                    Value=token.AccessToken,
+                },
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.RefreshToken,
+                    Value=token.RefreshToken,
+                },
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.ExpiresIn,
+                    Value = DateTime.Now.AddSeconds(token.ExpiresIn).ToString(),
+                }
+            };
+
+
+            var result = await _httpContextAccessor.HttpContext.AuthenticateAsync();
+
+            var props = result.Properties;
+
+            props.StoreTokens(authenticationToken);
+
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal, props);
+
+            return true;
+
         }
 
         public async Task<bool> SignInAsync(SignInDto signInDto)
         {
             var discoveryEndPoint = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                Address = "http://localhost:5001",
+                Address = _serviceApiSettings.IdentityServerUrl,
                 Policy = new DiscoveryPolicy
                 {
                     RequireHttps = false,
                 }
             });
-            var clientClientdialRequest = new ClientCredentialsTokenRequest()
-            {
-                ClientId = _clientSettings.MultiShopVisitorClient.ClientId,
-                ClientSecret = _clientSettings.MultiShopVisitorClient.ClientSecret,
-                Address=discoveryEndPoint.TokenEndpoint,
-                
-            };
             var passwordTokenRequest = new PasswordTokenRequest
             {
-                ClientId = _clientSettings.MultiShopVisitorClient.ClientId,
-                ClientSecret = _clientSettings.MultiShopVisitorClient.ClientSecret,
+                ClientId = _clientSettings.MultiShopManagerClient.ClientId,
+                ClientSecret = _clientSettings.MultiShopManagerClient.ClientSecret,
                 UserName = signInDto.UserName,
                 Password = signInDto.Password,
                 Address = discoveryEndPoint.TokenEndpoint
 
             };
 
-            var token = await _httpClient.RequestClientCredentialsTokenAsync(clientClientdialRequest);
+            var token = await _httpClient.RequestPasswordTokenAsync(passwordTokenRequest);
             if (token.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
                 var userInfoRequest = new UserInfoRequest
@@ -98,9 +150,9 @@ namespace MultiShop.WebUI.Services.Concrete
                 return false;
             }
 
-           
 
-       
+
+
 
         }
     }

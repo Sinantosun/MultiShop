@@ -4,16 +4,16 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("ocelot.json").Build();
-
-builder.Services.AddOcelot(configuration);
-
 builder.Services.AddAuthentication().AddJwtBearer("OcelotAuthenticationScheme", opts =>
 {
-    opts.Audience = builder.Configuration["IdentityServerUrl"];
+    opts.Authority = builder.Configuration["IdentityServerUrl"];
     opts.Audience = "Resource_Ocelot";
     opts.RequireHttpsMetadata = false;
 });
+
+IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("ocelot.json").Build();
+
+builder.Services.AddOcelot(configuration);
 
 var app = builder.Build();
 

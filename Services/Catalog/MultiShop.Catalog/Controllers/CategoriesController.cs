@@ -30,6 +30,7 @@ namespace MultiShop.Catalog.Controllers
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
+
             var values = await _categoryService.GetAllCategoryAsync();
             return Ok(values);
         }

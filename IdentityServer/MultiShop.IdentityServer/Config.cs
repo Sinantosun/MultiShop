@@ -36,7 +36,7 @@ namespace MultiShop.IdentityServer
             {
                 Scopes={"CommentFullPermission"},
             },
-                new ApiResource("Resource_Ocelot")
+            new ApiResource("Resource_Ocelot")
             {
                 Scopes={"OcelotFullPermission"},
             },
@@ -70,13 +70,17 @@ namespace MultiShop.IdentityServer
             {
                 ClientId="MultiShopVisitorId",
                 ClientName="Multi Shop Visitor User",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 ClientSecrets = {
                     new Secret("multishopsecret".Sha256())
                 },
                 AllowedScopes = {
-                    "CatalogFullPermission","OcelotFullPermission"
-                }
+                  "CatalogReadPermission","CatalogFullPermission","OcelotFullPermission", IdentityServerConstants.LocalApi.ScopeName,
+                 IdentityServerConstants.StandardScopes.Email,
+                 IdentityServerConstants.StandardScopes.OpenId,
+                 IdentityServerConstants.StandardScopes.Profile,
+                },
+           
             },
             #endregion
 
@@ -85,12 +89,15 @@ namespace MultiShop.IdentityServer
             {
                 ClientId="MultiShopManagerId",
                 ClientName="Multi Shop Manager User",
-                AllowedGrantTypes= GrantTypes.ClientCredentials,
+                AllowedGrantTypes= GrantTypes.ResourceOwnerPassword,
                 ClientSecrets = {
                     new Secret("multishopsecret".Sha256())
                 },
                  AllowedScopes = {
-                    "CatalogFullPermission","CatalogReadPermission","BasketFullPermission","OcelotFullPermission"
+                    "CatalogFullPermission","CatalogReadPermission","BasketFullPermission","OcelotFullPermission"  , IdentityServerConstants.LocalApi.ScopeName,
+                 IdentityServerConstants.StandardScopes.Email,
+                 IdentityServerConstants.StandardScopes.OpenId,
+                 IdentityServerConstants.StandardScopes.Profile,
                 }
 
             },
