@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.CategoryDtos;
+using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
 using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,10 +13,12 @@ namespace MultiShop.WebUI.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly NotificationService _notificationService;
-        public TestController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
+        private readonly ICategoryService _categoryService;
+        public TestController(IHttpClientFactory httpClientFactory, NotificationService notificationService, ICategoryService categoryService)
         {
             _httpClientFactory = httpClientFactory;
             _notificationService = notificationService;
+            _categoryService = categoryService;
         }
 
         public async Task<IActionResult> Index()
@@ -62,6 +65,20 @@ namespace MultiShop.WebUI.Controllers
                 return View(result);
             }
             return View(new List<ResultCategoryDto>());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Deneme2()
+        {
+            var values = await _categoryService.GetAllCategoryAsync();
+            return View(values);    
+        }
+
+        [HttpGet]
+        public IActionResult Deneme3()
+        {
+            
+            return View();
         }
     }
 }
