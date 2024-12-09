@@ -12,7 +12,7 @@ namespace MultiShop.WebUI.Services.Concrete
         private readonly IClientAccessTokenCache _clientAccessTokenCache;
         private readonly ClientSettings _clientSettings;
 
-        public ClientCredentialTokenService(IOptions<ServiceApiSettings> serviceApiSettings, HttpClient httpClient, IClientCredentialTokenService clientCredentialTokenService, IOptions<ClientSettings> clientSettings, IClientAccessTokenCache clientAccessTokenCache)
+        public ClientCredentialTokenService(IOptions<ServiceApiSettings> serviceApiSettings, HttpClient httpClient, IOptions<ClientSettings> clientSettings, IClientAccessTokenCache clientAccessTokenCache)
         {
             _serviceApiSettings = serviceApiSettings.Value;
             _httpClient = httpClient;

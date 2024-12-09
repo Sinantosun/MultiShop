@@ -16,7 +16,7 @@ namespace MultiShop.WebUI.Handlers
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "test");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await _clientCredentialTokenService.GetToken());
 
             var response = await base.SendAsync(request, cancellationToken);
 
