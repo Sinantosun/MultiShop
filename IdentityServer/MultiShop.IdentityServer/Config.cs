@@ -76,9 +76,6 @@ namespace MultiShop.IdentityServer
                 },
                 AllowedScopes = {
                   "CatalogReadPermission","CatalogFullPermission","OcelotFullPermission", IdentityServerConstants.LocalApi.ScopeName,
-                 IdentityServerConstants.StandardScopes.Email,
-                 IdentityServerConstants.StandardScopes.OpenId,
-                 IdentityServerConstants.StandardScopes.Profile,
                 },
            
             },

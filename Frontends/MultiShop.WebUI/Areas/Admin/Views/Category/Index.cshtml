@@ -18,7 +18,6 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Kategori Görseli</th>
                                     <th>Kategori Adı</th>
                                     <th class="text-center" colspan="3">İşlemler</th>
                                 </tr>
@@ -28,7 +27,6 @@
                                 {
 
                                     <tr>
-                                        <td style="width:300px"><img src="@item.ImageUrl"  style="width:300px; height:200px"/></td>
                                         <td>@item.CategoryName</td>
                                         <td class="text-center" style="width:40px"><a href="~/Admin/Category/test" class="btn btn-warning">Kategoriye ait ürünler</a></td>
                                         <td class="text-center" style="width:40px"><button onclick="deleteCategory('@item.Id')" class="btn btn-danger">Sil</button></td>

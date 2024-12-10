@@ -1,5 +1,7 @@
-﻿using MultiShop.WebUI.Handlers;
+﻿using MultiShop.Catalog.Services.ProductServices;
+using MultiShop.WebUI.Handlers;
 using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
+using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using MultiShop.WebUI.Services.Concrete;
 using MultiShop.WebUI.Services.Interfaces;
 using MultiShop.WebUI.Settings;
@@ -23,8 +25,10 @@ namespace MultiShop.WebUI.Container
                 opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
-
-
+            services.AddHttpClient<IProductService, ProductService>(opts =>
+            {
+                opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
             services.AddHttpClient();
             services.AddHttpClient<IIdentityService, IdentityService>();

@@ -12,15 +12,25 @@ namespace MultiShop.WebUI.Services.CatalogServices.CategoryServices
             _httpClient = httpClient;
         }
 
-        public async Task CreateCategoryAsync(CreateCategoryDto createCategoryDto)
+        public async Task<bool> CreateCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            await _httpClient.PostAsJsonAsync<CreateCategoryDto>("categories", createCategoryDto);
+            var result = await _httpClient.PostAsJsonAsync<CreateCategoryDto>("categories", createCategoryDto);
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
 
         }
 
-        public async Task DeleteCategoryAsync(string id)
+        public async Task<bool> DeleteCategoryAsync(string id)
         {
-            await _httpClient.DeleteAsync($"categories?id={id}");
+            var result = await _httpClient.DeleteAsync($"categories/{id}");
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
@@ -38,9 +48,14 @@ namespace MultiShop.WebUI.Services.CatalogServices.CategoryServices
             return await _httpClient.GetFromJsonAsync<ResultCategoryByIdDto>($"categories/{id}");
         }
 
-        public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        public async Task<bool> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
-            await _httpClient.PutAsJsonAsync<UpdateCategoryDto>("categories", updateCategoryDto);
+            var result = await _httpClient.PutAsJsonAsync<UpdateCategoryDto>("categories", updateCategoryDto);
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
