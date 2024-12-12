@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.AboutDtos;
+using MultiShop.WebUI.Services.CatalogServices.AboutServices;
 using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
@@ -10,12 +11,13 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     [Route("[area]/[controller]/[action]/{id?}")]
     public class AboutController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IAboutService _aboutService;
         private readonly NotificationService _notificationService;
-        public AboutController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
+        public AboutController(NotificationService notificationService, IAboutService aboutService)
         {
-            _httpClientFactory = httpClientFactory;
+
             _notificationService = notificationService;
+            _aboutService = aboutService;
         }
 
 
@@ -32,13 +34,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.i3 = "fa-bars";
 
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Abouts");
-            if (responseMessage.IsSuccessStatusCode)
+            var value = await _aboutService.GetAllAboutAsync();
+            if (value != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultAboutDto>>(jsonData);
-                return View(result);
+                return View(value);
             }
             return View(new List<ResultAboutDto>());
         }
@@ -61,11 +60,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAbout(CreateAboutDto createAboutDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(createAboutDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7070/api/Abouts", str);
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _aboutService.CreateAboutAsync(createAboutDto);
+            if (result)
             {
                 _notificationService.Success("Yeni kayıt eklendi.");
             }
@@ -74,7 +70,6 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                 _notificationService.Error("Kayıt ekleme sırasında bir hata oluştu.");
             }
             return RedirectToAction("CreateAbout");
-
         }
 
 
@@ -90,15 +85,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7070/api/Abouts/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            var result = await _aboutService.GetAboutByIdAsync(id);
+            if (result != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ResultAboutByIdDto>(jsonData);
-
                 return View(result);
-
             }
             _notificationService.Error("Beklenmeyen bir hata meydana geldi.");
             return View(new ResultAboutByIdDto());
@@ -106,11 +96,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateAbout(UpdateAboutDto updateAboutDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(updateAboutDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7070/api/Abouts", str);
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _aboutService.UpdateAboutAsync(updateAboutDto);
+            if (result)
             {
                 _notificationService.Success("Kayıt güncellendi.");
                 return RedirectToAction("Index");
@@ -119,15 +106,15 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             {
                 _notificationService.Error("Kayıt güncelleme sırasında bir hata oluştu.");
             }
+
             return View();
 
         }
 
         public async Task<IActionResult> DeleteAbout(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7070/api/Abouts/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _aboutService.DeleteAboutAsync(id);
+            if (result)
             {
                 _notificationService.Success("Kayıt silindi.");
             }
@@ -136,6 +123,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
                 _notificationService.Error("Kayıt silme esnasında bir hata oluştu.");
             }
             return RedirectToAction("Index");
+          
         }
     }
 }

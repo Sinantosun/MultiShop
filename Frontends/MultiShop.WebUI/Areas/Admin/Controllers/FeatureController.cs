@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.FeatureDtos;
+using MultiShop.WebUI.Services.CatalogServices.FeatureServices;
 using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
@@ -10,12 +11,12 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     [Route("[area]/[controller]/[action]/{id?}")]
     public class FeatureController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly NotificationService _notificationService;
-        public FeatureController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
+        private readonly IFeatureService _featureService;
+        public FeatureController(NotificationService notificationService, IFeatureService featureService)
         {
-            _httpClientFactory = httpClientFactory;
             _notificationService = notificationService;
+            _featureService = featureService;
         }
 
 
@@ -31,14 +32,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
 
-
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/Feature");
-            if (responseMessage.IsSuccessStatusCode)
+            var values = await _featureService.GetAllFeatureAsync();
+            if (values != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultFeatueDto>>(jsonData);
-                return View(result);
+                return View(values);
             }
             return View(new List<ResultFeatueDto>());
         }
@@ -61,11 +58,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFeature(CreateFeatureDto createFeatureDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(createFeatureDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7070/api/Feature", str);
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _featureService.CreateFeatureAsync(createFeatureDto);
+            if (result)
             {
                 _notificationService.Success("Yeni kayıt eklendi.");
             }
@@ -90,15 +84,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7070/api/Feature/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            var value = await _featureService.GetFeatureByIdAsync(id);
+            if (value != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ResultFeatureByIdDto>(jsonData);
-
-                return View(result);
-
+                return View(value);
             }
             _notificationService.Error("Beklenmeyen bir hata meydana geldi.");
             return View(new ResultFeatureByIdDto());
@@ -106,11 +95,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateFeature(UpdateFeatureDto updateFeatureDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(updateFeatureDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7070/api/Feature", str);
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _featureService.UpdateFeatureAsync(updateFeatureDto);
+            if (result)
             {
                 _notificationService.Success("Kayıt güncellendi.");
                 return RedirectToAction("Index");
@@ -126,9 +112,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteFeature(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7070/api/Feature/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _featureService.DeleteFeatureAsync(id);
+            if (result)
             {
                 _notificationService.Success("Kayıt silindi.");
             }
