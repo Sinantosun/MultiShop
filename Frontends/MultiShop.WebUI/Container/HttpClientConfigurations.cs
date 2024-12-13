@@ -6,6 +6,8 @@ using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
 using MultiShop.WebUI.Services.CatalogServices.FeatureServices;
 using MultiShop.WebUI.Services.CatalogServices.FeatureSliderServices;
 using MultiShop.WebUI.Services.CatalogServices.OfferDiscountServices;
+using MultiShop.WebUI.Services.CatalogServices.ProductDetailServices;
+using MultiShop.WebUI.Services.CatalogServices.ProductImageServices;
 using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using MultiShop.WebUI.Services.CatalogServices.SpecialOfferServices;
 using MultiShop.WebUI.Services.Concrete;
@@ -64,6 +66,16 @@ namespace MultiShop.WebUI.Container
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
             services.AddHttpClient<IAboutService, AboutService>(opts =>
+            {
+                opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
+
+            services.AddHttpClient<IProductImageService, ProductImageService>(opts =>
+            {
+                opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
+
+            services.AddHttpClient<IProductDetailService, ProductDetailService>(opts =>
             {
                 opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();

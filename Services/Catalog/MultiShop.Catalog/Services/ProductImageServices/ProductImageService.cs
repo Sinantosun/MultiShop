@@ -64,15 +64,23 @@ namespace MultiShop.Catalog.Services.ProductImageServices
         public async Task<ResultProductImageByProductIdDto> GetProductImagesByProductId(string productId)
         {
             var values = await _productImageCollcetion.Find(t => t.ProductId == productId).FirstOrDefaultAsync();
-            return new ResultProductImageByProductIdDto
+            if (values != null)
             {
-                ProductImageId = values.Id,
-                Image1 = values.Image1,
-                Image2 = values.Image2,
-                Image3 = values.Image3,
-                Image4 = values.Image4,
-                ProductId = values.ProductId
-            };
+                return new ResultProductImageByProductIdDto
+                {
+                    ProductImageId = values.Id,
+                    Image1 = values.Image1,
+                    Image2 = values.Image2,
+                    Image3 = values.Image3,
+                    Image4 = values.Image4,
+                    ProductId = values.ProductId
+                };
+            }
+            else
+            {
+                return new ResultProductImageByProductIdDto();
+            }
+        
         }
 
         public async Task UpdateProductImageAsync(UpdateProductImageDto updateProductImageDto)

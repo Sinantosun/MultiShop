@@ -1,27 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductDtos;
+using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.ProductListViewComponents
 {
     public class _ProductLDetailAttrubiteComponentPartial : ViewComponent
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        public _ProductLDetailAttrubiteComponentPartial(IHttpClientFactory httpClientFactory)
+        private readonly IProductService _productService;
+        public _ProductLDetailAttrubiteComponentPartial(IHttpClientFactory httpClientFactory, IProductService productService)
         {
-            _httpClientFactory = httpClientFactory;
+            _productService = productService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7070/api/Products/GetProductAttrubitesByProductId?productId={id}");
-            if (responseMessage.IsSuccessStatusCode)
+            var result = await _productService.GetProductAttrubitesByProductIdAsync(id);
+            if (result != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultProductWithAttrubtuitesDto>>(jsonData);
                 return View(result);
+
             }
             return View(new List<ResultProductWithAttrubtuitesDto>());
         }

@@ -44,7 +44,7 @@ namespace MultiShop.Catalog.Services.ProductServices
 
         public async Task<List<ResultProductWithAttrubtuitesDto>> GetProductAttrubitesByProductIdAsync(string productId)
         {
-            var result = await _httpClient.GetFromJsonAsync<List<ResultProductWithAttrubtuitesDto>>("/products/GetProductAttrubitesByProductId");
+            var result = await _httpClient.GetFromJsonAsync<List<ResultProductWithAttrubtuitesDto>>($"Products/GetProductAttrubitesByProductId?productId={productId}");
             return result;
         }
 
@@ -56,7 +56,7 @@ namespace MultiShop.Catalog.Services.ProductServices
 
         public async Task<List<GetProductsByCategoryIdDto>> GetProductListByCategoryIdAsync(string categoryId)
         {
-            var result = await _httpClient.GetFromJsonAsync<List<GetProductsByCategoryIdDto>>($"products/GetProductListByCategoryId/{categoryId}");
+            var result = await _httpClient.GetFromJsonAsync<List<GetProductsByCategoryIdDto>>($"products/GetProductListByCategoryId?categoryId={categoryId}");
             return result;
         }
 
