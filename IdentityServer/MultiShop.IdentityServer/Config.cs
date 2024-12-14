@@ -75,7 +75,7 @@ namespace MultiShop.IdentityServer
                     new Secret("multishopsecret".Sha256())
                 },
                 AllowedScopes = {
-                  "CatalogReadPermission","CatalogFullPermission","OcelotFullPermission", IdentityServerConstants.LocalApi.ScopeName,
+                  "CatalogReadPermission","CatalogFullPermission","OcelotFullPermission","CommentFullPermission", IdentityServerConstants.LocalApi.ScopeName,
                 },
            
             },
@@ -91,7 +91,7 @@ namespace MultiShop.IdentityServer
                     new Secret("multishopsecret".Sha256())
                 },
                  AllowedScopes = {
-                    "CatalogFullPermission","CatalogReadPermission","BasketFullPermission","OcelotFullPermission"  , IdentityServerConstants.LocalApi.ScopeName,
+                    "CatalogFullPermission","CatalogReadPermission","BasketFullPermission","OcelotFullPermission" ,"CommentFullPermission"  , IdentityServerConstants.LocalApi.ScopeName,
                  IdentityServerConstants.StandardScopes.Email,
                  IdentityServerConstants.StandardScopes.OpenId,
                  IdentityServerConstants.StandardScopes.Profile,

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ContactDtos;
+using MultiShop.WebUI.Services.CatalogServices.ContactServices;
 using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
@@ -9,11 +10,11 @@ namespace MultiShop.WebUI.Controllers
     public class ContactController : Controller
     {
         private readonly NotificationService _notificationService;
-        private readonly IHttpClientFactory _httpClientFactory;
-        public ContactController(NotificationService notificationService, IHttpClientFactory httpClientFactory)
+        private readonly IContactService _contactService;
+        public ContactController(NotificationService notificationService, IContactService contactService)
         {
             _notificationService = notificationService;
-            _httpClientFactory = httpClientFactory;
+            _contactService = contactService;
         }
 
         public IActionResult Index()
@@ -27,13 +28,10 @@ namespace MultiShop.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> SendContact(CreateContactDto contact)
         {
-            contact.SendDate = DateTime.Now;
             contact.IsRead = false;
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(contact);
-            StringContent content = new StringContent(data,Encoding.UTF8,"application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7070/api/Contacts", content);
-            if (responseMessage.IsSuccessStatusCode)
+            contact.SendDate = DateTime.Now;
+            bool result = await _contactService.CreateContactAsync(contact);
+            if (result)
             {
                 _notificationService.Success("Mesajınız başarıyla gönderildi.");
             }
@@ -41,7 +39,6 @@ namespace MultiShop.WebUI.Controllers
             {
                 _notificationService.Error("Mesajınız iletiminde bir hata meydana geldi mesajaınız gönderilemedi.");
             }
-
             return RedirectToAction("Index");
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CommentDtos;
+using MultiShop.WebUI.Services.CommentServices;
 using MultiShop.WebUI.Services.Concrete;
 using Newtonsoft.Json;
 using System.Text;
@@ -8,12 +9,12 @@ namespace MultiShop.WebUI.Controllers
 {
     public class ProductListController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly NotificationService _notificationService;
-        public ProductListController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
+        private readonly ICommentService _commentService;
+        public ProductListController(NotificationService notificationService, ICommentService commentService)
         {
-            _httpClientFactory = httpClientFactory;
             _notificationService = notificationService;
+            _commentService = commentService;
         }
 
         public IActionResult Index(string id)
@@ -42,24 +43,15 @@ namespace MultiShop.WebUI.Controllers
         {
             createUserCommentDto.Status = true;
             createUserCommentDto.CreatedDate = DateTime.Now;
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(createUserCommentDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7075/api/Comments", str);
-            if (responseMessage.IsSuccessStatusCode)
+            bool result = await _commentService.CreateComment(createUserCommentDto);
+            if (result)
             {
                 _notificationService.Success("Yorumunz Eklendi");
                 return RedirectToAction("ProductDetail", new { id = createUserCommentDto.ProductId });
-            }
-            else
-            {
-                _notificationService.Warning("Bir Hata Oluştu");
-
-                return RedirectToAction("ProductDetail", new { id = createUserCommentDto.ProductId });
 
             }
-
-
+            _notificationService.Warning("Bir Hata Oluştu");
+            return RedirectToAction("ProductDetail", new { id = createUserCommentDto.ProductId });
         }
     }
 }

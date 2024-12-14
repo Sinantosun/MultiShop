@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CommentDtos;
+using MultiShop.WebUI.Services.CommentServices;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
@@ -7,10 +8,11 @@ namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
     public class _ProductDetailReviewComponentPartial : ViewComponent
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public _ProductDetailReviewComponentPartial(IHttpClientFactory httpClientFactory)
+        private readonly ICommentService _commentService;
+        public _ProductDetailReviewComponentPartial(IHttpClientFactory httpClientFactory, ICommentService commentService)
         {
             _httpClientFactory = httpClientFactory;
+            _commentService = commentService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string id)
@@ -26,31 +28,13 @@ namespace MultiShop.WebUI.ViewComponents.ProductDetailViewComponents
             //    return View(result);
 
             //}
-            ResultProductReviewByProductIdDto result = new ResultProductReviewByProductIdDto
+            var value = await _commentService.GetCommentListByProductId(id);
+            if (value != null)
             {
-                UserComments = new List<UserComents>
-                {
-                    new UserComents
-                    {
-                        NameSurname="sinan",
-                        CommentDetail="test",
-                        CreatedDate= DateTime.Now,
-                        Email="test@gmail.com",
-                        Status=true,
-                        ImageUrl="test",
-                        ProductId=id,
-                        Rating=3,
-                        UserCommentId=2,
-                    }
-                },
-                ProductId = id,
-                ProductReviewCount = 50,
-            };
-
-
-
-
-            return View(result);
+                return View(value);
+            }
+            return View(new ResultProductReviewByProductIdDto());
+  
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MultiShop.WebUI.Services.BasketServices;
 
 namespace MultiShop.WebUI.ViewComponents.ShoppingCartViewComponents
 {
@@ -6,6 +7,7 @@ namespace MultiShop.WebUI.ViewComponents.ShoppingCartViewComponents
     {
         public IViewComponentResult Invoke()
         {
+           
             return View();
         }
     }

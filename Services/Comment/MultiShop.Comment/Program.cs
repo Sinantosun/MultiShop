@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using MultiShop.Comment.Context;
 
@@ -8,7 +9,13 @@ builder.Services.AddDbContext<CommentContext>(opts =>
 {
     opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+{
+    opts.Authority = builder.Configuration["IdentityServerUrl"];
+    opts.Audience = "Resource_Comment";
+    opts.RequireHttpsMetadata = false;
 
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
