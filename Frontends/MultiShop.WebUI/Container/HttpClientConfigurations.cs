@@ -14,6 +14,7 @@ using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using MultiShop.WebUI.Services.CatalogServices.SpecialOfferServices;
 using MultiShop.WebUI.Services.CommentServices;
 using MultiShop.WebUI.Services.Concrete;
+using MultiShop.WebUI.Services.DiscountServices;
 using MultiShop.WebUI.Services.Interfaces;
 using MultiShop.WebUI.Settings;
 using System.Configuration;
@@ -36,6 +37,11 @@ namespace MultiShop.WebUI.Container
             services.AddHttpClient<IBasketService, BasketService>(opts =>
             {
                 opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+            services.AddHttpClient<IDiscountService, DiscountService>(opts =>
+            {
+                opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Discount.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
             services.AddHttpClient<ICategoryService, CategoryService>(opts =>

@@ -4,13 +4,12 @@
     Layout = "~/Views/UILayout/Index.cshtml";
 }
 
-
-
 <div class="container-fluid">
-    <div class=" col-md-12">
-        @await Html.PartialAsync("~/Views/Notification/Index.cshtml")
 
+    <div class="container">
+        @await Html.PartialAsync("~/Views/Notification/Index.cshtml")
     </div>
+    
     <div class="row px-xl-5">
         @await Component.InvokeAsync("_ShoppingCartProductListComponentPartial")
         @await Component.InvokeAsync("_ShoppingCartDiscountCouponComponentPartial")
