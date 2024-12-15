@@ -47,10 +47,11 @@ namespace MultiShop.WebUI.Services.Concrete
                 Address = discoveryEndPoint.TokenEndpoint
             };
 
-            var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
 
-
-            var authenticationToken = new List<AuthenticationToken>()
+            if (refreshtoken != null)
+            {
+                var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
+                var authenticationToken = new List<AuthenticationToken>()
             {
                 new AuthenticationToken
                 {
@@ -70,15 +71,20 @@ namespace MultiShop.WebUI.Services.Concrete
             };
 
 
-            var result = await _httpContextAccessor.HttpContext.AuthenticateAsync();
+                var result = await _httpContextAccessor.HttpContext.AuthenticateAsync();
 
-            var props = result.Properties;
+                var props = result.Properties;
 
-            props.StoreTokens(authenticationToken);
+                props.StoreTokens(authenticationToken);
 
-            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal, props);
+                await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal, props);
 
-            return true;
+                return true;
+            }
+
+
+            return false;
+
 
         }
 

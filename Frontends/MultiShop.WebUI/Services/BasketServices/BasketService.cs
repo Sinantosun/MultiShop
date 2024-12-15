@@ -1,4 +1,5 @@
 ﻿using MultiShop.DtoLayer.Dtos.BasketDtos;
+using System.Net;
 
 namespace MultiShop.WebUI.Services.BasketServices
 {
@@ -11,28 +12,36 @@ namespace MultiShop.WebUI.Services.BasketServices
             _httpClient = httpClient;
         }
 
-        public async Task AddBasketItem(BasketItemDto basketItemDto)
+        public async Task<bool> AddBasketItem(BasketItemDto basketItemDto)
         {
             var values = await GetBasket();
-            if (values != null)
+            if (values.Message != "Unauthorized")
             {
-                if (!values.BasketItem.Any(t => t.ProductId == basketItemDto.ProductId))
+                if (values != null)
                 {
-                    values.BasketItem.Add(basketItemDto);
+                    if (!values.BasketItem.Any(t => t.ProductId == basketItemDto.ProductId))
+                    {
+                        values.BasketItem.Add(basketItemDto);
+                    }
+                    else
+                    {
+                        values = new BasketTotalDto();
+                        values.BasketItem = new List<BasketItemDto>();
+                        values.BasketItem.Add(basketItemDto);
+                    }
                 }
-                else
-                {
-                    values = new BasketTotalDto();
-                    values.BasketItem.Add(basketItemDto);
-                }
+                await SaveBasket(values);
+                return true;
             }
-            await SaveBasket(values);
+            return false;
+           
         }
 
         public async Task<bool> RemoveBasketItem(string productId)
         {
             var values = await GetBasket();
             var deletedItem = values.BasketItem.FirstOrDefault(t => t.ProductId == productId);
+            values.BasketItem.Remove(deletedItem);  
             var result = await SaveBasket(values);
             if (result)
             {
@@ -49,8 +58,16 @@ namespace MultiShop.WebUI.Services.BasketServices
         public async Task<BasketTotalDto> GetBasket()
         {
             var response = await _httpClient.GetAsync("baskets");
-            var values = await response.Content.ReadFromJsonAsync<BasketTotalDto>();
-            return values;
+            if (response.StatusCode != HttpStatusCode.Unauthorized)
+            {
+                var values = await response.Content.ReadFromJsonAsync<BasketTotalDto>();
+                return values;
+            }
+            return new BasketTotalDto()
+            {
+                ResponseMessage = false,
+                Message = "Unauthorized",
+            };
         }
 
         public async Task<bool> SaveBasket(BasketTotalDto basketTotalDto)

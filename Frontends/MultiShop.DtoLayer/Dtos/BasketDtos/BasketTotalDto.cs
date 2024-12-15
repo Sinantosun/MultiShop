@@ -8,5 +8,8 @@
         public List<BasketItemDto> BasketItem { get; set; }
         public decimal TotalPrice { get => BasketItem.Sum(t => t.Price * t.Quantity); }
 
+        public bool? ResponseMessage { get; set; }
+        public string? Message { get; set; }
+
     }
 }
