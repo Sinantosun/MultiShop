@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+@await Component.InvokeAsync("_UserLayoutHeadComponentPartial")
+<body>
+    <div class="container-scroller">
+        @await Component.InvokeAsync("_UserLayoutNavbarComponentPartial")
+
+        <div class="container-fluid page-body-wrapper">
+
+            @await Component.InvokeAsync("_UserLayoutSideBarComponentPartial")
+            
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+
+                @await Component.InvokeAsync("_UserLayoutFooterComponentPartial")
+             
+            </div>
+
+        </div>
+
+    </div>
+
+    @await Component.InvokeAsync("_UserLayoutScriptsComponentPartial")
+</body>
+</html>
