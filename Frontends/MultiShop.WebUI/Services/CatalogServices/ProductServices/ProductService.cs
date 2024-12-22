@@ -60,6 +60,13 @@ namespace MultiShop.Catalog.Services.ProductServices
             return result;
         }
 
+        public async Task<ResultProductNameByProductIdDto> GetProductNameByProductId(string productId)
+        {
+
+            var result = await _httpClient.GetFromJsonAsync<ResultProductNameByProductIdDto>($"products/GetProductNameByProductId/{productId}");
+            return result;
+        }
+
         public async Task<List<ResultProductWithCategoriesDto>> GetProductWithCategoriesAsync()
         {
             var result = await _httpClient.GetFromJsonAsync<List<ResultProductWithCategoriesDto>>("products/GetListWithCategories");

@@ -48,6 +48,7 @@ namespace MultiShop.Comment.Controllers
         public async Task<IActionResult> GetList()
         {
             var values = await _context.UserComments.ToListAsync();
+     
             return Ok(values);
         }
         [HttpGet("{id}")]

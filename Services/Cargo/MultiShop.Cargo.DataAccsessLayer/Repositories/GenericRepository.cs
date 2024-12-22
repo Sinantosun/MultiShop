@@ -12,7 +12,7 @@ namespace MultiShop.Cargo.DataAccsessLayer.Repositories
 {
     public class GenericRepository<T> : IGenericDal<T> where T : class
     {
-        private readonly CargoContext _context;
+        protected readonly CargoContext _context;
 
         public GenericRepository(CargoContext context)
         {

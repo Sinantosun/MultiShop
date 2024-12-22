@@ -14,18 +14,19 @@
                 @if (Model.Any() && Model.Count > 0)
                 {
                     <h4>Ürün yorumları Listesi</h4>
-                    <p>Ürün yorumları ile ilgili ekleme silme güncelleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
+                    <p>Ürün yorumları ile ilgili silme ve listeleme işlemlerinizi buradan gerçekleştirebilirsiniz.</p>
                     <div class="bs-example" data-example-id="bordered-table">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
 
                                     <th>#</th>
+                                    <th>Ürün Adı</th>
                                     <th>Ad Soyad</th>
                                     <th>Yorum</th>
                                     <th>Tarih</th>
 
-                                    <th class="text-center" colspan="2">İşlemler</th>
+                                    <th class="text-center">İşlemler</th>
 
                                 </tr>
                             </thead>
@@ -35,15 +36,15 @@
                                     count++;
                                     <tr>
                                         <td>@count</td>
+                                        <td>@item.ProductName</td>
                                         <td>@item.NameSurname</td>
                                         <td>@item.CommentDetail</td>
-                                        <td>@item.Email</td>
-                                    
+                                       
+
                                         <td>@item.CreatedDate.ToString("f")</td>
-                                     
+
 
                                         <td class="text-center" style="width:40px"><button onclick="deleteComment('@item.UserCommentId')" class="btn btn-danger">Sil</button></td>
-                                        <td class="text-center" style="width:40px"><a href="~/Admin/Comment/UpdateComment/@item.UserCommentId" class="btn btn-success">Güncelle</a></td>
                                     </tr>
                                 }
                             </tbody>

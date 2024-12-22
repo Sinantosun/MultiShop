@@ -1,0 +1,28 @@
+﻿@model ResultCargoByIdDto
+@{
+    ViewData["Title"] = "UpdateCargoCompany";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<section class="content container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h4>Karo Şirketi Ekleme Sayfası </h4>
+                <form method="post">
+                    <input type="hidden" asp-for="CargoCompanyId">
+                    <div class="form-group">
+                        <label for="exampleInputForCamanpyName">Şirket Adı</label>
+                        <input type="text" asp-for="CamanpyName" class="form-control" id="exampleInputForCamanpyName" placeholder="Lütfen Kargo şirketinin adını yazınız">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+

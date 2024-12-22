@@ -9,5 +9,6 @@ namespace MultiShop.Cargo.BussinesLayer.Abstract
 {
     public interface ICargoCustomerService : IGenericService<CargoCustomer>
     {
+        Task<CargoCustomer> TGetUserAddresByUserId(string userId);
     }
 }

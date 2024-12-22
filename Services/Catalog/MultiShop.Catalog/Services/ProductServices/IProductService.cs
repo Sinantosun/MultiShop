@@ -14,7 +14,8 @@ namespace MultiShop.Catalog.Services.ProductServices
 
 
 
-        Task<List<ResultProductWithAttrubtuitesDto>> GetProductAttrubitesByProductIdAsync(string productId); 
+        Task<List<ResultProductWithAttrubtuitesDto>> GetProductAttrubitesByProductIdAsync(string productId);
+        Task<ResultProductNameByProductIdDto> GetProductNameByProductId(string productId);
 
     }
 }

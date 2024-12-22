@@ -18,6 +18,13 @@ namespace MultiShop.Cargo.WebApi.Controllers
             _customerService = customerService;
             _mapper = mapper;
         }
+        [HttpGet("GetUserAddresByUserId/{id}")]
+        public async Task<IActionResult> GetUserAddresByUserId(string id)
+        {
+            var value = await _customerService.TGetUserAddresByUserId(id);
+            var mappedValue = _mapper.Map<ResultCargoCustomerDto>(value);
+            return Ok(mappedValue);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCargoCustomerByIdAsync(int id)
         {
@@ -57,6 +64,7 @@ namespace MultiShop.Cargo.WebApi.Controllers
             value.Email = updateCargoCustomerDto.Email;
             value.City = updateCargoCustomerDto.City;
             value.District = updateCargoCustomerDto.District;
+            value.CargoCustomerId = updateCargoCustomerDto.CargoCustomerId;
     
             await _customerService.TUpdateAsync(value);
             return Ok("Kayıt Güncellendi");

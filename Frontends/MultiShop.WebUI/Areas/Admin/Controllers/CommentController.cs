@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CommentDtos;
+using MultiShop.WebUI.Services.CatalogServices.ProductServices;
+using MultiShop.WebUI.Services.CommentServices;
 using Newtonsoft.Json;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
@@ -9,14 +11,18 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     public class CommentController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
-        public CommentController(IHttpClientFactory httpClientFactory)
+        private readonly ICommentService _commentService;
+        private readonly IProductService _productService;
+        public CommentController(IHttpClientFactory httpClientFactory, ICommentService commentService, IProductService productService)
         {
             _httpClientFactory = httpClientFactory;
+            _commentService = commentService;
+            _productService = productService;
         }
 
         public async Task<IActionResult> Index()
         {
+           
             ViewBag.PageTitle = "Ürün Yorum İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
             ViewBag.v5 = "Ürün Yorumları alanı";
@@ -25,15 +31,16 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
-
-
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7075/api/Comments");
-            if (responseMessage.IsSuccessStatusCode)
+            var values = await _commentService.GetComments();
+          
+            if (values != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultUserCommentDto>>(jsonData);
-                return View(result);
+                foreach (var item in values)
+                {
+                    var productvalues = await _productService.GetProductNameByProductId(item.ProductId);
+                    item.ProductName = productvalues.ProductName;
+                }
+                return View(values);
             }
             return View(new List<ResultUserCommentDto>());
         }

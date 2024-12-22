@@ -61,7 +61,7 @@ namespace MultiShop.Catalog.Services.ProductServices
                 Image2 = createProductDto.Image2,
                 Image3 = createProductDto.Image3,
                 Image4 = createProductDto.Image4,
-                
+
             };
             await _productImageCollection.InsertOneAsync(producrSliderImage);
 
@@ -139,6 +139,16 @@ namespace MultiShop.Catalog.Services.ProductServices
         {
             var value = _mapper.Map<Product>(updateProductDto);
             await _productCollection.FindOneAndReplaceAsync(t => t.Id == updateProductDto.Id, value);
+        }
+
+        public async Task<ResultProductNameByProductIdDto> GetProductNameByProductId(string productId)
+        {
+            var value = await _productCollection.AsQueryable().FirstOrDefaultAsync(t => t.Id == productId);
+            return new ResultProductNameByProductIdDto
+            {
+                ProductName = value.ProductName,
+            };
+
         }
     }
 }

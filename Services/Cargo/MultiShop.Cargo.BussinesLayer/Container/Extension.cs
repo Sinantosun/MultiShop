@@ -4,6 +4,7 @@ using MultiShop.Cargo.BussinesLayer.Concrete;
 using MultiShop.Cargo.DataAccsessLayer.Abstract;
 using MultiShop.Cargo.DataAccsessLayer.EntityFramework;
 using MultiShop.Cargo.DataAccsessLayer.Repositories;
+using MultiShop.Cargo.EntityLayer.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,23 @@ namespace MultiShop.Cargo.BussinesLayer.Container
 
             services.AddScoped<ICargoCompanyService, CargoCampanyManager>();
             services.AddScoped<ICargoCustomerService, CargoCustomerManager>();
+      
+      
+
+
             services.AddScoped<ICargoDetailService, CargoDetailManager>();
             services.AddScoped<ICargoOperationService, CargoOperationManager>();
+            services.AddScoped<ICargoOperationService, CargoOperationManager>();
+
+
 
             services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
+ 
+       
+            
+
+
+
 
 
         }

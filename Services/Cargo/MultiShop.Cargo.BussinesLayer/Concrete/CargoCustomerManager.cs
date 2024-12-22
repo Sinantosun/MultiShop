@@ -11,8 +11,16 @@ namespace MultiShop.Cargo.BussinesLayer.Concrete
 {
     public class CargoCustomerManager : GenericManager<CargoCustomer>, ICargoCustomerService
     {
-        public CargoCustomerManager(IGenericDal<CargoCustomer> genericDal) : base(genericDal)
+        private readonly ICargoCustomerDal _cargoCustomerDal;
+        public CargoCustomerManager(IGenericDal<CargoCustomer> genericDal, ICargoCustomerDal cargoCustomerDal) : base(genericDal)
         {
+            _cargoCustomerDal = cargoCustomerDal;
+        }
+
+        public async Task<CargoCustomer> TGetUserAddresByUserId(string userId)
+        {
+            var values = await _cargoCustomerDal.GetUserAddresByUserId(userId);
+            return values;
         }
     }
 }

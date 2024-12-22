@@ -33,7 +33,7 @@ namespace MultiShop.Cargo.WebApi.Controllers
         public async Task<IActionResult> GetCargoCompanyByIdAsync(int id)
         {
             var value = await _companyService.TGetByIdAsync(id);
-            var mappedValue = _mapper.Map<List<ResultCompanyByIdDto>>(value);
+            var mappedValue = _mapper.Map<ResultCompanyByIdDto>(value);
             return Ok(mappedValue);
         }
 

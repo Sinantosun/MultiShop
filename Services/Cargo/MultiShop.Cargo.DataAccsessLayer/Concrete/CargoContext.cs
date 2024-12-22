@@ -10,6 +10,7 @@ namespace MultiShop.Cargo.DataAccsessLayer.Concrete
 {
     public class CargoContext : DbContext
     {
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("server = localhost,1441; initial catalog = MikroServiceMultiShopDb; User Id = sa; Password = 123456aA*; trustServerCertificate=true;");
