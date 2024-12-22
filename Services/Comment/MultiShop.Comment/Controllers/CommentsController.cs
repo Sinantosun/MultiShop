@@ -13,12 +13,41 @@ namespace MultiShop.Comment.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly CommentContext _context;
-
+     
         public CommentsController(CommentContext context)
         {
             _context = context;
         }
+        [HttpGet("GetMostCommenetProductId")]
+        public IActionResult GetMostCommenetProductId()
+        {
+            var mostCommentProduct = _context.UserComments.GroupBy(t => t.ProductId).Select(g => new
+            {
+                ProductId = g.Key,
+                CommentCount = g.Count()
+            }).OrderByDescending(t => t.CommentCount).FirstOrDefault();
 
+
+            return Ok(mostCommentProduct.ProductId);
+        }
+        [HttpGet("GetActiveCommentCount")]
+        public IActionResult GetActiveCommentCount()
+        {
+            int value = _context.UserComments.Where(t => t.Status == true).Count();
+            return Ok(value);
+        }
+        [HttpGet("GetTotalCommentCount")]
+        public IActionResult GetTotalCommentCount()
+        {
+            int value = _context.UserComments.Count();
+            return Ok(value);
+        }
+        [HttpGet("GetPasiveCommentCount")]
+        public IActionResult GetPasiveCommentCount()
+        {
+            int value = _context.UserComments.Where(t => t.Status == false).Count();
+            return Ok(value);
+        }
         [HttpGet("GetCommentListByProductId")]
         public async Task<IActionResult> GetCommentListByProductId(string productId)
         {
@@ -48,7 +77,7 @@ namespace MultiShop.Comment.Controllers
         public async Task<IActionResult> GetList()
         {
             var values = await _context.UserComments.ToListAsync();
-     
+
             return Ok(values);
         }
         [HttpGet("{id}")]

@@ -11,6 +11,7 @@ using MultiShop.Catalog.Services.ProductDetailServices;
 using MultiShop.Catalog.Services.ProductImageServices;
 using MultiShop.Catalog.Services.ProductServices;
 using MultiShop.Catalog.Services.SpecialOfferServices;
+using MultiShop.Catalog.Services.StatisticServices;
 
 namespace MultiShop.Catalog.Container
 {
@@ -31,6 +32,7 @@ namespace MultiShop.Catalog.Container
             services.AddScoped<IProductAttributeTypeService, ProductAttributeTypeService>();
             services.AddScoped<IProductAttributeTypeValueService, ProductAttributeTypeValueService>();
             services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IStatisticService, StatisticService>();
         }
     }
 }

@@ -15,7 +15,12 @@ namespace MultiShop.Discount.Controllers
         {
             _service = service;
         }
-        
+        [HttpGet("GetDiscountCoupon")]
+        public async Task<IActionResult> GetDiscountCoupon()
+        {
+            var values = await _service.GetDiscountCouponCountAsync();
+            return Ok(values);
+        }
         [HttpGet("GetCouponRateByCoupon/{coupon}")]
         public async Task<IActionResult> GetCouponRateByCoupon(string coupon)
         {

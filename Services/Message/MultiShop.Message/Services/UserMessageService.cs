@@ -30,6 +30,12 @@ namespace MultiShop.Message.Services
             await _messageContext.SaveChangesAsync();
         }
 
+        public async Task<int> GetAllMessageCountAsync()
+        {
+            var messageCount = await _messageContext.UserMessages.CountAsync();
+            return messageCount;
+        }
+
         public async Task<List<ResultInboxMessageDto>> GetInboxMessageAsync(string id)
         {
             var values = await _messageContext.UserMessages.Where(t => t.ReviverId == id).ToListAsync();
