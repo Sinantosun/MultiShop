@@ -28,7 +28,7 @@
                         <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">Yeni 4 Bildirim Var</li>
+                        <li class="header">Yeni @ViewBag.ReciverMessageCount Mesajınız Var</li>
                         <li>
                             <ul class="menu">
                                 <li>
@@ -68,15 +68,14 @@
                         <li class="footer"><a href="#">Tüm Bildirimler</a></li>
                     </ul>
                 </li>
-                <!-- messages-menu -->
-                <!-- Notifications Menu -->
+               
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-megaphone"></i>
+                        <i class="fa fa-comment"></i>
                         <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">Notifications</li>
+                        <li class="header">Tüm Yorum Sayısı : @ViewBag.CommentCount</li>
                         <li>
                             <ul class="menu">
                                 <li><a href="#"><i class="icon-lightbulb"></i> Lorem ipsum dolor sit amet </a> </li>
@@ -88,8 +87,7 @@
                         <li class="footer"><a href="#">View all</a></li>
                     </ul>
                 </li>
-                <!-- Tasks Menu -->
-                <!-- User Account Menu -->
+           
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img src="../dist/img/img1.jpg" class="user-image" alt="User Image"> <span class="hidden-xs">Florence Douglas</span> </a>
                     <ul class="dropdown-menu">

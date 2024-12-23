@@ -10,12 +10,18 @@ namespace MultiShop.Message.Controllers
     public class UserMessageController : ControllerBase
     {
         private IUserMessageService _userMessageService;
-
+  
         public UserMessageController(IUserMessageService userMessageService)
         {
             _userMessageService = userMessageService;
         }
-  
+
+        [HttpGet("GetTotalMessageCountByReciverId/{id}")]
+        public async Task<IActionResult> GetTotalMessageCountByReciverId(string id)
+        {
+            var values = await _userMessageService.GetTotalMessageCountByReciverId(id);
+            return Ok(values);
+        }
         [HttpGet("GetAllMessageCount")]
         public async Task<IActionResult> GetAllMessageCount()
         {

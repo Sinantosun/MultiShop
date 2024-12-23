@@ -14,5 +14,7 @@ namespace MultiShop.Message.Services
         Task<GetByIdMessageByIdDto> GetMessageByIdAsync(int id);
 
         Task<int> GetAllMessageCountAsync();
+
+        Task<int> GetTotalMessageCountByReciverId(string id);
     }
 }

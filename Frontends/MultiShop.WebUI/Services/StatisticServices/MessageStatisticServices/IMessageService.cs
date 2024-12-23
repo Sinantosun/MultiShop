@@ -3,5 +3,7 @@
     public interface IMessageService
     {
         Task<int> GetAllMessageCountAsync();
+
+        Task<int> GetTotalMessageCountByReciverIdAsync(string id);
     }
 }
