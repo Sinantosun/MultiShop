@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "SignalRTest";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<div class="content">
+    <br /><br />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <script type="text/javascript">
+                    $(document).ready(() => {
+                        var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7034/SignalRHub").build();
+                        $("#connstatus").text(connection.state);
+                        connection.start();
+                        connection.start().then(() => {
+                            $("#connstatus").text(connection.state);
+                            connection.invoke("SendStatisticCount");
+                            connection.on("ReciveCommentCount", value => {
+                                alert(value);
+                                $("#commentcount").text(value);
+                            });
+                        }).cath((err) => { console.log(err) });
+
+                       
+                    });
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 ">
+    <div class="alert alert-primary">Bağlantının Durumu : <strong id="connstatus"></strong></div>
+    <div class="alert alert-primary">Yorum Sayısı : <strong id="commentcount"></strong></div>
+</div>

@@ -37,6 +37,7 @@ namespace MultiShop.Comment.Controllers
             return Ok(value);
         }
         [HttpGet("GetTotalCommentCount")]
+
         public IActionResult GetTotalCommentCount()
         {
             int value = _context.UserComments.Count();

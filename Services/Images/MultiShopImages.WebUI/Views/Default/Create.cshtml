@@ -1,0 +1,27 @@
+﻿@using MultiShopImages.WebUI.Dal.Entites
+@model ImageDrive
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Ekle</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <label>Ürün Adı</label>
+    <input type="text" class="form-control border" name="Name" />
+    <br />
+
+    <label>Görsel Seçin</label>
+    <input type="file" class="form-control border" name="Photo" />
+    <br />
+ 
+    <input name="SavedUrl" type="hidden" class="form-control" />
+    <input name="SavedFileName" type="hidden" class="form-control" />
+    <button class="btn btn-outline-info">Görseli Kaydet</button>
+</form>
+
+<div>
+    <a href="Index">Geri Dön</a>
+</div>
+
