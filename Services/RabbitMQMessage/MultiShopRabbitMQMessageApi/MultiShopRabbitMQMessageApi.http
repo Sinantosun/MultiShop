@@ -1,0 +1,6 @@
+@MultiShopRabbitMQMessageApi_HostAddress = http://localhost:5150
+
+GET {{MultiShopRabbitMQMessageApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
