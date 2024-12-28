@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
 using MultiShop.WebUI.Container;
 using MultiShop.WebUI.Handlers;
@@ -9,6 +10,14 @@ using MultiShop.WebUI.Services.Interfaces;
 using MultiShop.WebUI.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddLocalization(opts =>
+{
+    opts.ResourcesPath = "Resources";
+
+});
+
+builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
 builder.Services.AddAuthenticationSettings();
 
@@ -40,6 +49,12 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+var supportedCultres = new[] { "en", "fr", "de", "tr", "it" };
+var locationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultres[3]).AddSupportedCultures(supportedCultres).AddSupportedUICultures(supportedCultres);
+
+
+app.UseRequestLocalization(locationOptions);
 
 app.MapControllerRoute(
     name: "default",

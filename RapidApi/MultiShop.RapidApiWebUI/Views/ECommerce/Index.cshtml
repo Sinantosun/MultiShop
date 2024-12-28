@@ -1,0 +1,48 @@
+﻿@model ECommerceModel.Data
+@{
+    ViewData["Title"] = "Index";
+    int count = 0;
+    Layout = null;
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <tr>
+                    <td>#</td>
+                    <td>Görseli</td>
+                    <td>Ürün Adı</td>
+                    <td>Açıklaması</td>
+                    <td>Yıldız Değeri</td>
+                    <td>Yorum Sayısı</td>
+                    <td>Min Fiyatı</td>
+                    <td>Max Fiyatı</td>
+                </tr>
+                @foreach (var item in Model.products)
+                {
+                    count++;
+                    <tr>
+                        <th>@count</th>
+                        <td><img src="@item.product_photos[0]" style="width:100px; height:100px;" /></td>
+                        <td>@item.product_title</td>
+                        <td>@(item.product_description.Length >= 100 ? @item.product_description.Substring(0, item.product_description.Substring(0, 100).LastIndexOf(" ")) + "..." : item.product_description)</td>
+                        <td>@item.product_rating</td>
+                        <td>@item.product_num_reviews</td>
+                        <td>@item.typical_price_range[0]</td>
+                        <td>@item.typical_price_range[1]</td>
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+

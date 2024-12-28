@@ -1,4 +1,6 @@
-﻿@model List<ResultCategoryDto>
+﻿@* @model List<ResultCategoryDto>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer locaizer
+
 <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
     <div class="col-lg-4">
         <a href="" class="text-decoration-none">
@@ -19,7 +21,7 @@
         </form>
     </div>
     <div class="col-lg-4 col-6 text-right">
-        <p class="m-0">Customer Service</p>
+        <p class="m-0">@locaizer["Destek"]</p>
         <h5 class="m-0">+012 345 6789</h5>
     </div>
 </div>
@@ -27,7 +29,7 @@
     <div class="row px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; padding: 0 30px;">
-                <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>Kategoriler</h6>
+                <h6 class="text-dark m-0"><i class="fa fa-bars mr-2"></i>@locaizer["Kategoriler"]</h6>
                 <i class="fa fa-angle-down text-dark"></i>
             </a>
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
@@ -54,17 +56,16 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="/Default/Index" class="nav-item nav-link active">Ana Sayfa</a>
-                        <a href="shop.html" class="nav-item nav-link">Ürünler</a>
-                        <a href="detail.html" class="nav-item nav-link">Ürün Detayları</a>
-                        <a href="detail.html" class="nav-item nav-link">Günün Fırsatı</a>
+                        <a href="/Default/Index" class="nav-item nav-link active">@locaizer["Ana Sayfa"] </a>
+                        <a href="shop.html" class="nav-item nav-link">@locaizer["Ürünler"] </a>
+                        <a href="detail.html" class="nav-item nav-link"> @locaizer["Günün Fırsatı"] </a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Sayfalar <i class="fa fa-angle-down mt-1"></i></a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@locaizer["Sayfalar"]  <i class="fa fa-angle-down mt-1"></i></a>
                             <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                <a href="/ShopingCart/Index" class="dropdown-item">Sepetim</a>
+                                <a href="/ShopingCart/Index" class="dropdown-item">@locaizer["Sepetim"] </a>
                             </div>
                         </div>
-                        <a href="contact.html" class="nav-item nav-link">İletişim</a>
+                        <a href="contact.html" class="nav-item nav-link">@locaizer["İletişim"]</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                         <a href="" class="btn px-0">
@@ -77,14 +78,14 @@
                         </a>
 
                         <a href="/Login/Index" class="btn px-0 ml-3">
-                            <span class="badge text-secondary " style="padding-bottom: 2px;">Giriş Yap</span>
+                            <span class="badge text-secondary " style="padding-bottom: 2px;">@locaizer["Giriş Yap"] </span>
                         </a>
                         <a href="/Register/Index" class="btn px-0 ml-3">
-                            <span class="badge text-secondary " style="padding-bottom: 2px;">Kaydol</span>
+                            <span class="badge text-secondary " style="padding-bottom: 2px;">@locaizer["Kaydol"] </span>
                         </a>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
-</div>
+</div> *@

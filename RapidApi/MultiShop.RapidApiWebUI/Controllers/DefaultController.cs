@@ -16,7 +16,7 @@ namespace MultiShop.RapidApiWebUI.Controllers
                 RequestUri = new Uri("https://yahoo-weather5.p.rapidapi.com/weather?location=kocaeli&format=json&u=c"),
                 Headers =
     {
-        { "x-rapidapi-key", "d234545be3msh80284519f140985p113e8djsn92304e361f9a" },
+        { "x-rapidapi-key", "rapid api key" },
         { "x-rapidapi-host", "yahoo-weather5.p.rapidapi.com" },
     },
             };
@@ -42,7 +42,7 @@ namespace MultiShop.RapidApiWebUI.Controllers
                 RequestUri = new Uri("https://real-time-finance-data.p.rapidapi.com/currency-exchange-rate?from_symbol=USD&to_symbol=TRY&language=TR"),
                 Headers =
     {
-        { "x-rapidapi-key", "d234545be3msh80284519f140985p113e8djsn92304e361f9a" },
+        { "x-rapidapi-key", "rapid api key" },
         { "x-rapidapi-host", "real-time-finance-data.p.rapidapi.com" },
     },
             };
@@ -64,7 +64,7 @@ namespace MultiShop.RapidApiWebUI.Controllers
                 RequestUri = new Uri("https://real-time-finance-data.p.rapidapi.com/currency-exchange-rate?from_symbol=EUR&to_symbol=TRY&language=TR"),
                 Headers =
     {
-        { "x-rapidapi-key", "d234545be3msh80284519f140985p113e8djsn92304e361f9a" },
+        { "x-rapidapi-key", "rapid api key" },
         { "x-rapidapi-host", "real-time-finance-data.p.rapidapi.com" },
     },
             };
