@@ -1,8 +1,8 @@
-﻿using MultiShop.Catalog.Dtos.ProductAttributeTypeValueDtos;
+﻿using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductAttributeTypeValueDtos;
 
-namespace MultiShop.Catalog.Services.ProductAttributeTypeValueServices
+namespace MultiShop.WebUI.Services.ProjectAttributeTypeValue
 {
-    public interface IProductAttributeTypeValueService
+    public interface IProjectAttributeTypeValueService
     {
         Task<List<ResultProductAttributeTypeValueDto>> GetAllProductAttributeTypeValueAsync();
         Task CreateProductAttributeTypeValueAsync(CreateProductAttributeTypeValueDto createIProductAttributeTypeValueDto);
@@ -11,9 +11,6 @@ namespace MultiShop.Catalog.Services.ProductAttributeTypeValueServices
         Task<ResultProductAttributeTypeValueByIdDto> GetProductAttributeTypeValueByIdAsync(string id);
 
         Task<List<ResultProductAttributeTypeValueByProductIdDto>> GetProductAttributeTypeValueByProductIdAsync();
-
-
-
 
     }
 }

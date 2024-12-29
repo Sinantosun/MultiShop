@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductAttributeTypeDtos;
 using MultiShop.WebUI.Services.Concrete;
+using MultiShop.WebUI.Services.ProjectAttrubiteTypes;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -10,45 +11,45 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
     [Route("[area]/[controller]/[action]/{id?}")]
     public class ProductAttributeTypeController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IProductAttrubiteTypeService _productAttrubiteTypeService;
         private readonly NotificationService _notificationService;
-        public ProductAttributeTypeController(IHttpClientFactory httpClientFactory, NotificationService notificationService)
+        public ProductAttributeTypeController(NotificationService notificationService, IProductAttrubiteTypeService productAttrubiteTypeService)
         {
-            _httpClientFactory = httpClientFactory;
             _notificationService = notificationService;
+            _productAttrubiteTypeService = productAttrubiteTypeService;
         }
 
         public async Task<IActionResult> Index()
         {
 
-            ViewBag.PageTitle = "Hakkımızda  İşlemleri";
+            ViewBag.PageTitle = "Ürün Özellik İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
-            ViewBag.v5 = "Hakkımızda alanı";
-            ViewBag.v6 = "Hakkımızda listesi";
+            ViewBag.v5 = "Ürünler alanı";
+            ViewBag.v6 = "Ürün özellik listesi";
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
 
-
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7070/api/ProductAttributeTypes");
-            if (responseMessage.IsSuccessStatusCode)
+            var values = await _productAttrubiteTypeService.GetAllProductAttributeTypeAsync();
+            if (values != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ResultProductAttributeTypeDto>>(jsonData);
-                return View(result);
+                return View(values);
+
             }
             return View(new List<ResultProductAttributeTypeDto>());
+
+
+
         }
 
         [HttpGet]
         public IActionResult CreateProductAttribute()
         {
-            ViewBag.PageTitle = "Hakkımızda  İşlemleri";
+            ViewBag.PageTitle = "Ürün Özellik İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
-            ViewBag.v5 = "Hakkımızda alanı";
-            ViewBag.v6 = "Hakkımızda ekleme";
+            ViewBag.v5 = "Ürünler alanı";
+            ViewBag.v6 = "Ürün özellik ekleme sayfası";
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
@@ -60,18 +61,8 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProductAttribute(CreateProductAttributeTypeDto createProductAttributeDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(createProductAttributeDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7070/api/ProductAttributeTypes", str);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                _notificationService.Success("Yeni kayıt eklendi.");
-            }
-            else
-            {
-                _notificationService.Error("Kayıt ekleme sırasında bir hata oluştu.");
-            }
+            await _productAttrubiteTypeService.CreateProductAttributeTypeAsync(createProductAttributeDto);
+            _notificationService.Success("Yeni kayıt eklendi.");
             return RedirectToAction("CreateProductAttribute");
 
         }
@@ -80,60 +71,37 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateProductAttribute(string id)
         {
-            ViewBag.PageTitle = "Hakkımızda İşlemleri";
+            ViewBag.PageTitle = "Ürün Özellik İşlemleri";
             ViewBag.v4 = "Ana Sayfa";
-            ViewBag.v5 = "Hakkımızda alanı";
-            ViewBag.v6 = "Hakkımızda güncelleme";
+            ViewBag.v5 = "Ürünler alanı";
+            ViewBag.v6 = "Ürün özellik güncelleme";
 
             ViewBag.i1 = "fa-home";
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7070/api/ProductAttributeTypes/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+            var result = await _productAttrubiteTypeService.GetProductAttributeTypeByIdAsync(id);
+            if (result != null)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ResultProductAttributeTypeByIdDto>(jsonData);
-
                 return View(result);
-
             }
+
             _notificationService.Error("Beklenmeyen bir hata meydana geldi.");
             return View(new ResultProductAttributeTypeByIdDto());
         }
         [HttpPost]
         public async Task<IActionResult> UpdateProductAttribute(UpdateProductAttributeTypeDto updateProductAttributeDto)
         {
-            var client = _httpClientFactory.CreateClient();
-            var data = JsonConvert.SerializeObject(updateProductAttributeDto);
-            StringContent str = new StringContent(data, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7070/api/ProductAttributeTypes", str);
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                _notificationService.Success("Kayıt güncellendi.");
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                _notificationService.Error("Kayıt güncelleme sırasında bir hata oluştu.");
-            }
-            return View();
+            await _productAttrubiteTypeService.UpdateProductAttributeTypeAsync(updateProductAttributeDto);
+            _notificationService.Success("Yeni kayıt Güncellendi.");
+            return RedirectToAction("CreateProductAttribute");
 
         }
 
         public async Task<IActionResult> DeleteProductAttribute(string id)
         {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7070/api/ProductAttributeTypes/{id}");
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                _notificationService.Success("Kayıt silindi.");
-            }
-            else
-            {
-                _notificationService.Error("Kayıt silme esnasında bir hata oluştu.");
-            }
+            await _productAttrubiteTypeService.DeleteProductAttributeTypeAsync(id);
+
             return RedirectToAction("Index");
         }
     }

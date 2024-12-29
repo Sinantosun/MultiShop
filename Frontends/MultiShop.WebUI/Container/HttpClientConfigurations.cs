@@ -21,6 +21,8 @@ using MultiShop.WebUI.Services.Interfaces;
 using MultiShop.WebUI.Services.MessasgeServices;
 using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
 using MultiShop.WebUI.Services.OrderServices.OrderingServices;
+using MultiShop.WebUI.Services.ProjectAttributeTypeValue;
+using MultiShop.WebUI.Services.ProjectAttrubiteTypes;
 using MultiShop.WebUI.Services.StatisticServices.CatalogStatisticServices;
 using MultiShop.WebUI.Services.StatisticServices.CommentStatisticServices;
 using MultiShop.WebUI.Services.StatisticServices.DiscountStatisticServices;
@@ -54,9 +56,19 @@ namespace MultiShop.WebUI.Container
                 opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+            services.AddHttpClient<IProjectAttributeTypeValueService, ProjectAttributeTypeValueService>(opts =>
+            {
+                opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
             services.AddHttpClient<ICargoCustomerService, CargoCustomerService>(opts =>
             {
                 opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+            services.AddHttpClient<IProductAttrubiteTypeService, ProductAttrubiteTypeService>(opts =>
+            {
+                opts.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
             services.AddHttpClient<ICatalogStatisticService, CatalogStatisticService>(opts =>

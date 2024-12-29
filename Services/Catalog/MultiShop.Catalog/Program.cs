@@ -17,16 +17,16 @@ builder.Services.AddScoped<IDatabaseSettings>(sp =>
     return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
 });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
-{
-    opts.Authority = builder.Configuration["IdentityServerUrl"];
-    opts.Audience = "Resource_Catalog";
-    opts.RequireHttpsMetadata = false;
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+//{
+//    opts.Authority = builder.Configuration["IdentityServerUrl"];
+//    opts.Audience = "Resource_Catalog";
+//    opts.RequireHttpsMetadata = false;
 
-});
+//});
 builder.Services.AddControllers(opts =>
 {
-    opts.Filters.Add(new AuthorizeFilter());
+    //opts.Filters.Add(new AuthorizeFilter());
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

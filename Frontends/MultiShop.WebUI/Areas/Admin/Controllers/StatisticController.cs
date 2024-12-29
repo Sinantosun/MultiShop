@@ -39,12 +39,27 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             var minPrice = await _catalogStatisticService.GetMinPriceProductPrice();
             var maxPrice = await _catalogStatisticService.GetMaxPriceProductPrice();
             var lastProductName = await _catalogStatisticService.LastInsertedProductName();
-    
+
 
             var userCount = await _userStatisticService.GetUserAllCountAsync();
 
             var productId = await _commentStatisticService.MostCommentProductId();
-            var result = await _productService.GetProductNameByProductId(productId);
+            if (productId != null)
+            {
+                var result = await _productService.GetProductNameByProductId(productId);
+                string value = result.ProductName;
+                if (result.ProductName.Length > 30)
+                {
+                    value = value.Substring(0, value.Substring(0, 30).LastIndexOf(" ")) + "...";
+                }
+                ViewBag.ProductName = value;
+
+            }
+            else
+            {
+                ViewBag.ProductName = "-";
+            }
+
 
             var activeCommentCount = await _commentStatisticService.GetActiveCommentCountAsync();
             var passiveCommentCount = await _commentStatisticService.GetPassiveCommentCountAsync();
@@ -65,12 +80,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
             ViewBag.LastProductName = lastProductName;
-            string value = result.ProductName;
-            if (result.ProductName.Length>30)
-            {
-                value = value.Substring(0, value.Substring(0,30).LastIndexOf(" ")) + "...";
-            }
-            ViewBag.ProductName = value;
+          
 
             ViewBag.UserCount = userCount;
 

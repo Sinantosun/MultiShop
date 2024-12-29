@@ -23,6 +23,14 @@ namespace MultiShop.Catalog.Controllers
             return Ok(values);
         }
 
+        [HttpGet("GetAttributeListByProductId")]
+        public async Task<IActionResult> GetAttributeListByProductId()
+        {
+            var values = await _ProductAttributeTypeValueService.GetProductAttributeTypeValueByProductIdAsync();
+            return Ok(values);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {

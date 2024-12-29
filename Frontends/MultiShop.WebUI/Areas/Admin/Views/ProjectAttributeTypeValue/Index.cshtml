@@ -1,0 +1,71 @@
+﻿@using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductAttributeTypeValueDtos
+@model List<ResultProductAttributeTypeValueByProductIdDto>
+@{
+    ViewData["Title"] = "Index";
+
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+}
+<br />
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h1>Ürün  Özelliği Ekleme Sayfası</h1>
+                <div class="form-group">
+                    <p>* Özellikler ardında işaretli olan veriler ürünün aktif özelliğidir bir üründe hiç kutucuk işaretli değilse o üründe herhangi bir özellik ataması yapılmamıştır.</p>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <h1 class="type-name">@item.AttributeName</h1>
+
+                    @foreach (var item2 in item.Values)
+                    {
+                        string text = "checked";
+                        if (item2.IsExsit)
+                        {
+                            text = "checked";
+                        }
+                        else
+                        {
+                            text = "";
+                        }
+                        <div class="form-check subject_@item.AttributeName" style="display:none">
+                            <input class="form-check-input" type="checkbox" @text value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                @item2.Value
+                            </label>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.type-name').forEach(function (h1) {
+        h1.addEventListener('click', function () {
+            const typeName = this.textContent.trim();
+
+            const elements = document.querySelectorAll('.subject_' + typeName);
+
+            if (elements.length > 0 && elements[0].style.display === 'block') {
+                elements.forEach(function (element) {
+                    element.style.display = 'none';
+                });
+            } else {
+                document.querySelectorAll('[class^="subject_"]').forEach(function (element) {
+                    element.style.display = 'none';
+                });
+                elements.forEach(function (element) {
+                    element.style.display = 'block';
+                });
+            }
+        });
+    });
+</script>
