@@ -29,6 +29,7 @@
     </ul>
   </li>
  <li>Docker</li>
+    <li>RapidAPI</li>
    <li>RabbitMQ</li>
    <li>Postman, Swagger</li>
    <li> Google Cloud Storage</li>
