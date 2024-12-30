@@ -54,6 +54,20 @@
   </li>
 </ul>
 
+<h1>MikroServisler</h1>
+
+📌 Basket --> Redis (Docker)
+📌 Cargo --> MSSQL
+📌 Catalog --> MongoDb
+📌 Comment --> MSSQL (Docker)
+📌 Discount --> MSSQL - Dapper
+📌 Images --> Google Cloud Storage
+📌 Message --> PostgreSQL
+📌 Order --> MSSQL (Docker)
+📌 IdentityServer4 --> MSSQL (Docker)
+📌 Payment
+📌 SignalR
+
 ![Login](https://github.com/user-attachments/assets/1cf021cb-a40a-4c4e-aec7-f7c619f2cb45)
 
 ![Register](https://github.com/user-attachments/assets/ee231cb7-90df-430b-acd4-4ef302d59c0e)
