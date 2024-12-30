@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductAttributeTypeDtos;
 using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductAttributeTypeValueDtos;
 using MultiShop.WebUI.Services.CatalogServices.ProductServices;
 using MultiShop.WebUI.Services.Concrete;
 using MultiShop.WebUI.Services.ProjectAttributeTypeValue;
+using MultiShop.WebUI.Services.ProjectAttrubiteTypes;
+using System.Collections.Generic;
 
 namespace MultiShop.WebUI.Areas.Admin.Controllers
 {
@@ -15,11 +18,13 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         private readonly IProjectAttributeTypeValueService _projectAttributeTypeValueService;
         private readonly NotificationService _notificationService;
         private readonly IProductService _productService;
-        public ProjectAttributeTypeValueController(IProjectAttributeTypeValueService projectAttributeTypeValueService, NotificationService notificationService, IProductService productService)
+        private readonly IProductAttrubiteTypeService _productAttrubiteTypeService;
+        public ProjectAttributeTypeValueController(IProjectAttributeTypeValueService projectAttributeTypeValueService, NotificationService notificationService, IProductService productService, IProductAttrubiteTypeService productAttrubiteTypeService)
         {
             _projectAttributeTypeValueService = projectAttributeTypeValueService;
             _notificationService = notificationService;
             _productService = productService;
+            _productAttrubiteTypeService = productAttrubiteTypeService;
         }
 
 
@@ -28,7 +33,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         {
             var value = await _productService.GetProductNameByProductId(id);
 
-            var values = await _projectAttributeTypeValueService.GetProductAttributeTypeValueByProductIdAsync();
+
+
+
+            ViewBag.ProductId = id;
 
             ViewBag.PageTitle = value.ProductName + " - Özellik Atama Sayfası";
             ViewBag.v4 = "Ana Sayfa";
@@ -39,7 +47,19 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
             ViewBag.i2 = "fa-envelope-o";
             ViewBag.i3 = "fa-bars";
 
-            return View(values);
+            var list = await _productAttrubiteTypeService.GetAllProductAttributeTypeAsync();
+
+            List<SelectListItem> selectListItem = (from x in list
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.TypeName,
+                                                       Value = x.ProductAttributeTypeId,
+                                                   }).ToList();
+
+            ViewBag.TypeValues = selectListItem;
+
+
+            return View();
 
         }
         [HttpPost]
@@ -49,7 +69,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
 
             _notificationService.Success("Yeni kayıt eklendi.");
 
-            return RedirectToAction("CreateProjectAttribute");
+            return RedirectToAction("Index", "Product");
         }
 
 

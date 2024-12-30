@@ -90,29 +90,27 @@ namespace MultiShop.Catalog.Services.ProductAttributeTypeValueServices
 
             var response = await _productAttrubiteType.FindAsync(filter: filter);
 
-            List<ResultProductAttributeTypeValueByProductIdDto> test = new List<ResultProductAttributeTypeValueByProductIdDto>();
+            List<ResultProductAttributeTypeValueByProductIdDto> newlist = new List<ResultProductAttributeTypeValueByProductIdDto>();
 
             var list = await response.ToListAsync();
 
             foreach (var item in list)
             {
-
-                test.Add(new ResultProductAttributeTypeValueByProductIdDto
+                newlist.Add(new ResultProductAttributeTypeValueByProductIdDto
                 {
                     AttributeName = _productAttrubiteType.Find(p => p.ProductAttributeTypeId == item.ProductAttributeTypeId).FirstOrDefault().TypeName,
+                    AttributeId = item.ProductAttributeTypeId,
                     Values = _ProductAttributeTypeValueCollection.AsQueryable().Select(o => new AttributeTypeValue
                     {
                         Value = o.AttributeValue,
                         IsExsit = (o.ProductAttributeTypeId == item.ProductAttributeTypeId ? true : false),
+                   
 
                     }).ToList()
                 });
             }
 
-
-
-
-            return test.DistinctBy(t => t.AttributeName).ToList();
+            return newlist.DistinctBy(t => t.AttributeName).ToList();
 
         }
 

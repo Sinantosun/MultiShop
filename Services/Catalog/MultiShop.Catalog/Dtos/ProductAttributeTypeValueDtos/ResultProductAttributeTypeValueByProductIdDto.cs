@@ -4,6 +4,8 @@
     {
         public string AttributeName { get; set; }
 
+        public string AttributeId { get; set; }
+
         public List<AttributeTypeValue> Values { get; set; }
     }
 

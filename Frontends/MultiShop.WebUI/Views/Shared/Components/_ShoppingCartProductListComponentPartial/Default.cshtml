@@ -21,7 +21,7 @@
                     <tr>
                         <td class="align-middle"><img src="@item.ImageUrl" alt="" style="width: 100px; height:150px"> </td>
                         <td class="align-middle"> @item.ProductName</td>
-                        <td class="align-middle">@item.Price.ToString("C2")</td>
+                        <td class="align-middle">@item.Price.ToString("N2") ₺</td>
                         <td class="align-middle">
                             <div class="input-group quantity mx-auto" style="width: 100px;">
                                 <div class="input-group-btn">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="align-middle">@price.ToString("C2") </td>
+                        <td class="align-middle">@price.ToString("N2") ₺ </td>
                         <td class="align-middle"><a href="/ShopingCart/RemoveBasketItem/@item.ProductId" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                     </tr>
                 }

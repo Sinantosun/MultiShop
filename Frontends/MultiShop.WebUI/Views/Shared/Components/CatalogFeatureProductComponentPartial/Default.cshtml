@@ -20,9 +20,9 @@
                     <div class="text-center py-4">
                         <a class="h6 text-decoration-none text-truncate" href="/ProductList/ProductDetail/@item.Id">@(item.ProductName.Length > 20 ? @item.ProductName.Substring(0, item.ProductName.Substring(0, 20).LastIndexOf(" ")) : item.ProductName)</a>
                         <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>@item.ProductPrice.ToString("C2")</h5><h6 class="text-muted ml-2">
+                            <h5>@item.ProductPrice.ToString("N2") ₺</h5><h6 class="text-muted ml-2">
                                 <del>
-                                    @x.ToString("C2");
+                                    @x.ToString("N2") ₺;
                                 </del>
                             </h6>
                         </div>

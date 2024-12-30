@@ -1,0 +1,73 @@
+@using MultiShop.DtoLayer.Dtos.CatalogDtos.ProductAttributeTypeValueDtos
+@model List<ResultProductAttributeTypeValueByProductIdDto>
+@{
+    ViewData["Title"] = "Index";
+
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+}
+<br />
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="chart-box">
+                <h1>Ürün  Özelliði Ekleme Sayfasý</h1>
+                <div class="form-group">
+                    <p>* Özellikler ardýnda iþaretli olan veriler ürünün aktif özelliðidir bir üründe hiç kutucuk iþaretli deðilse o üründe herhangi bir özellik atamasý yapýlmamýþtýr.</p>
+                </div>
+                <form method="post">
+                @foreach (var item in Model)
+                {
+                    <input type="hidden" name="@item.AttributeId" />
+                    <h1 class="type-name">@item.AttributeName</h1>
+
+                    @foreach (var item2 in item.Values)
+                    {
+                        string text = "checked";
+                        if (item2.IsExsit)
+                        {
+                            text = "checked";
+                        }
+                        else
+                        {
+                            text = "";
+                        }
+                        <div class="form-check subject_@item.AttributeName" style="display:none">
+                            <input class="form-check-input" value="@item.AttributeId" name="ProductAttributeTypeId" type="checkbox" @text id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                @item2.Value
+                            </label>
+                        </div>
+                    }
+                }
+                <button class="btn btn-primary">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.type-name').forEach(function (h1) {
+        h1.addEventListener('click', function () {
+            const typeName = this.textContent.trim();
+
+            const elements = document.querySelectorAll('.subject_' + typeName);
+
+            if (elements.length > 0 && elements[0].style.display === 'block') {
+                elements.forEach(function (element) {
+                    element.style.display = 'none';
+                });
+            } else {
+                document.querySelectorAll('[class^="subject_"]').forEach(function (element) {
+                    element.style.display = 'none';
+                });
+                elements.forEach(function (element) {
+                    element.style.display = 'block';
+                });
+            }
+        });
+    });
+</script>
